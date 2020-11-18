@@ -1,7 +1,5 @@
 package by.testbot.payload.callbacks;
 
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import by.testbot.models.User;
@@ -14,7 +12,7 @@ public class SubscribedCallback {
     private EventType eventType;
 
     @JsonProperty("timestamp")
-    private Timestamp timestamp;
+    private Long timestamp;
 
     @JsonProperty("user")
     private User user;
