@@ -5,18 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import by.testbot.models.Keyboard;
+import by.testbot.models.Location;
 import by.testbot.models.Sender;
 import by.testbot.models.enums.MessageType;
 import lombok.Data;
 
 @Data
 @JsonInclude(Include.NON_NULL)
-public class SendTextMessageRequest {
-    @JsonProperty("receiver")
+public class SendLocationMessageRequest {
+    @JsonProperty(value = "receiver", required = true)
     private String userId;
 
     @JsonProperty("min_api_version")
-    private String minApiVersion;
+    private Integer minApiVersion;
 
     @JsonProperty("sender")
     private Sender sender;
@@ -25,10 +26,10 @@ public class SendTextMessageRequest {
     private String trackingData;
 
     @JsonProperty(value = "type", required = true)
-    private final MessageType messageType = MessageType.TEXT;
+    private final MessageType messageType = MessageType.LOCATION;
 
-    @JsonProperty(value = "text", required = true)
-    private String text;
+    @JsonProperty(value = "location", required = true)
+    private Location location;
 
     @JsonProperty("keyboard")
     private Keyboard keyboard;

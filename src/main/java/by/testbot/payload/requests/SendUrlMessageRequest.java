@@ -11,24 +11,24 @@ import lombok.Data;
 
 @Data
 @JsonInclude(Include.NON_NULL)
-public class SendTextMessageRequest {
-    @JsonProperty("receiver")
+public class SendUrlMessageRequest {
+    @JsonProperty(value = "receiver", required = true)
     private String userId;
 
     @JsonProperty("min_api_version")
-    private String minApiVersion;
+    private Integer minApiVersion;
 
-    @JsonProperty("sender")
+    @JsonProperty("sernder")
     private Sender sender;
 
     @JsonProperty("tracking_data")
     private String trackingData;
 
     @JsonProperty(value = "type", required = true)
-    private final MessageType messageType = MessageType.TEXT;
+    private final MessageType messageType = MessageType.URL;
 
-    @JsonProperty(value = "text", required = true)
-    private String text;
+    @JsonProperty(value = "media", required = true)
+    private String mediaUrl;
 
     @JsonProperty("keyboard")
     private Keyboard keyboard;
