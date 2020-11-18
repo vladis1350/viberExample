@@ -1,11 +1,21 @@
 package by.testbot.controllers;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import by.testbot.services.WebhookService;
 
 @RestController
 public class WebhookController {
-    // @RequestMapping(value = "/", method = RequestMethod.POST)
-    // public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-    //     return telegramBot.onWebhookUpdateReceived(update);
-    // }
+    @Autowired
+    private WebhookService webhookService;
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public void onUpdateReceived(@RequestBody JSONObject update) {
+        webhookService.onWebhookUpdateReceived(update);
+    }
 }
