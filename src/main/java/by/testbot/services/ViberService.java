@@ -60,9 +60,6 @@ public class ViberService {
         if (sendTextMessageRequest == null) {
             throw new IllegalArgumentException("Send text message request is null.");
         }
-        if (sendTextMessageRequest.getUserId() == null || sendTextMessageRequest.getUserId().isEmpty() || sendTextMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
-        }
         if (sendTextMessageRequest.getSender().getName() == null || sendTextMessageRequest.getSender().getName().isEmpty() || sendTextMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
         }
@@ -83,9 +80,6 @@ public class ViberService {
     public void sendPictureMessage(SendPictureMessageRequest sendPictureMessageRequest) {
         if (sendPictureMessageRequest == null) {
             throw new IllegalArgumentException("Send picture message request is null.");
-        }
-        if (sendPictureMessageRequest.getUserId() == null || sendPictureMessageRequest.getUserId().isEmpty() || sendPictureMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
         }
         if (sendPictureMessageRequest.getSender().getName() == null || sendPictureMessageRequest.getSender().getName().isEmpty() || sendPictureMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
@@ -111,9 +105,6 @@ public class ViberService {
         if (sendVideoMessageRequest == null) {
             throw new IllegalArgumentException("Send video message request is null.");
         }
-        if (sendVideoMessageRequest.getUserId() == null || sendVideoMessageRequest.getUserId().isEmpty() || sendVideoMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
-        }
         if (sendVideoMessageRequest.getSender().getName() == null || sendVideoMessageRequest.getSender().getName().isEmpty() || sendVideoMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
         }
@@ -137,9 +128,6 @@ public class ViberService {
     public void sendFileMessage(SendFileMessageRequest sendFileMessageRequest) {
         if (sendFileMessageRequest == null) {
             throw new IllegalArgumentException("Send file message request is null.");
-        }
-        if (sendFileMessageRequest.getUserId() == null || sendFileMessageRequest.getUserId().isEmpty() || sendFileMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
         }
         if (sendFileMessageRequest.getSender().getName() == null || sendFileMessageRequest.getSender().getName().isEmpty() || sendFileMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
@@ -168,9 +156,6 @@ public class ViberService {
         if (sendContactMessageRequest == null) {
             throw new IllegalArgumentException("Send contact message request is null.");
         }
-        if (sendContactMessageRequest.getUserId() == null || sendContactMessageRequest.getUserId().isEmpty() || sendContactMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
-        }
         if (sendContactMessageRequest.getSender().getName() == null || sendContactMessageRequest.getSender().getName().isEmpty() || sendContactMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
         }
@@ -195,9 +180,6 @@ public class ViberService {
         if (sendLocationMessageRequest == null) {
             throw new IllegalArgumentException("Send location message request is null.");
         }
-        if (sendLocationMessageRequest.getUserId() == null || sendLocationMessageRequest.getUserId().isEmpty() || sendLocationMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
-        }
         if (sendLocationMessageRequest.getSender().getName() == null || sendLocationMessageRequest.getSender().getName().isEmpty() || sendLocationMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
         }
@@ -219,9 +201,6 @@ public class ViberService {
         if (sendUrlMessageRequest == null) {
             throw new IllegalArgumentException("Send url message request is null.");
         }
-        if (sendUrlMessageRequest.getUserId() == null || sendUrlMessageRequest.getUserId().isEmpty() || sendUrlMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
-        }
         if (sendUrlMessageRequest.getSender().getName() == null || sendUrlMessageRequest.getSender().getName().isEmpty() || sendUrlMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
         }
@@ -242,9 +221,6 @@ public class ViberService {
     public void sendStickerMessage(SendStickerMessageRequest sendStickerMessageRequest) {
         if (sendStickerMessageRequest == null) {
             throw new IllegalArgumentException("Send sticker message request is null.");
-        }
-        if (sendStickerMessageRequest.getUserId() == null || sendStickerMessageRequest.getUserId().isEmpty() || sendStickerMessageRequest.getUserId().isBlank()) {
-            throw new IllegalArgumentException("User id is null or empty.");
         }
         if (sendStickerMessageRequest.getSender().getName() == null || sendStickerMessageRequest.getSender().getName().isEmpty() || sendStickerMessageRequest.getSender().getName().isBlank()) {
             throw new IllegalArgumentException("Sender name is null or empty.");
