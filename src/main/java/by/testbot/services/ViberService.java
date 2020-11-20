@@ -265,23 +265,28 @@ public class ViberService {
 
     public void handleUpdate(ViberUpdate viberUpdate) {
         if (viberUpdate.hasDeliveredCallback()) {
+            logger.info("Received DeliveredCallback from user: " + viberUpdate.getDeliveredCallback().getUserId());
             // handle callback
         }
         else if (viberUpdate.hasSeenCallback()) {
+            logger.info("Received SeenCallback from user: " + viberUpdate.getSeenCallback().getUserId());
             // handle callback
         }
         else if (viberUpdate.hasFailedCallback()) {
+            logger.info("Received FailedCallback from user: " + viberUpdate.getFailedCallback().getUserId() + ", with message: " + viberUpdate.getFailedCallback().getDescription());
             // handle callback
         }
         else if (viberUpdate.hasSubscribedCallback()) {
+            logger.info("Received SubscribedCallback from user: " + viberUpdate.getSubscribedCallback().getUser().getViberId());
             // handle callback
         }
         else if (viberUpdate.hasUnsubscribedCallback()) {
+            logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
             // handle callback
         }
         else if (viberUpdate.hasConversationStartedCallback()) {
+            logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             // handle callback
-
 
             BotState botState = BotState.ConversationStarted;
             BotContext botContext = BotContext.of(this, viberUpdate.getConversationStartedCallback());
@@ -289,9 +294,11 @@ public class ViberService {
             botState.enter(botContext);
         }
         else if (viberUpdate.hasWebhookCallback()) {
+            logger.info("Received WebhookCallback.");
             // handle callback
         }
         else if (viberUpdate.hasMessageCallback()) {
+            logger.info("Received MessageCallback from user: " + viberUpdate.getMessageCallback().getSender().getId() + ", message type: " + viberUpdate.getMessageCallback().getMessage().getMessageType());
             // handle callback
         }
     }
