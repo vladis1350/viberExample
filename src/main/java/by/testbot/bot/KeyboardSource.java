@@ -40,8 +40,8 @@ public class KeyboardSource {
         buttons.add(reportButton);
 
         Button integrationButton = new Button();
-        integrationButton.setText("Отчет");
-        integrationButton.setActionBody("Отчет");
+        integrationButton.setText("Интеграции");
+        integrationButton.setActionBody("Интеграции");
         integrationButton.setColumns(3);
         integrationButton.setRows(1);
         buttons.add(integrationButton);
@@ -57,7 +57,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getListOfManagersMenu() {
+    public static Keyboard getListOfManagersMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
@@ -93,7 +93,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getListOfClientsMenu() {
+    public static Keyboard getListOfClientsMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
         
@@ -115,7 +115,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getReportMenu() {
+    public static Keyboard getReportMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
@@ -137,7 +137,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getIntegrationsMenu() {
+    public static Keyboard getIntegrationsMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
@@ -159,7 +159,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getSettingsMenu() {
+    public static Keyboard getSettingsMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
@@ -181,7 +181,7 @@ public class KeyboardSource {
         return keyboard;
     }
 
-    public static Keyboard getSetBotUsingPeriodMenu() {
+    public static Keyboard getSetBotUsagePeriodMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
@@ -198,6 +198,28 @@ public class KeyboardSource {
         atNightButton.setColumns(6);
         atNightButton.setRows(1);
         buttons.add(atNightButton);
+
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
+
+    public static Keyboard getConfirmPostponeMessageKeyboard() {
+        Keyboard keyboard = new Keyboard();
+        List<Button> buttons = new ArrayList<>();
+
+        Button yesButton = new Button();
+        yesButton.setText("Да");
+        yesButton.setActionBody("Да");
+        yesButton.setColumns(6);
+        yesButton.setRows(1);
+        buttons.add(yesButton);
+
+        Button noButton = new Button();
+        noButton.setText("Нет");
+        noButton.setActionBody("Нет");
+        noButton.setColumns(6);
+        noButton.setRows(1);
+        buttons.add(noButton);
 
         keyboard.setButtons(buttons);
         return keyboard;

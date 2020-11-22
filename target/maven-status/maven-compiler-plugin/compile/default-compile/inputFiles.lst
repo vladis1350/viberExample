@@ -1,4 +1,5 @@
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\Button.java
+D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\bot\KeyboardSender.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\config\FeignErrorDecoder.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\services\UserService.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\enums\Status.java
@@ -47,5 +48,6 @@ D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\Keyb
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\Contact.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\payload\requests\message\SendVideoMessageRequest.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\enums\InputFieldState.java
+D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\bot\KeyboardSource.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\payload\callbacks\SubscribedCallback.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\payload\callbacks\SeenCallback.java
