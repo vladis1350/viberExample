@@ -2,15 +2,11 @@ package by.testbot.bot;
 
 import java.util.Arrays;
 
-import by.testbot.payload.requests.message.SendTextMessageRequest;
-
 public enum BotState {
     ConversationStarted(0, true) {
         @Override
         public void enter(BotContext botContext) {
-            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
-
-            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+            KeyboardSender.sendAdminMainMenuKeyboard(botContext.getViberService(), botContext.getConversationStartedCallback().getUser().getViberId());
         }
 
         @Override
