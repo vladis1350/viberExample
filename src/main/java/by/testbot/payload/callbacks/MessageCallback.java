@@ -26,4 +26,7 @@ public class MessageCallback {
 
     @JsonProperty("chat_hostname")
     private String chatHostname;
+
+    @JsonProperty("silent")
+    private Boolean silent;
 }
