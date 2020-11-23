@@ -21,6 +21,9 @@ public class MessageCallback {
     @JsonProperty("sender")
     private Sender sender;
 
+    @JsonProperty("silent")
+    private Boolean silent;
+
     @JsonProperty("message")
     private Message message;
 
