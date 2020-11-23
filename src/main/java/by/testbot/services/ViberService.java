@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import by.testbot.bot.BotContext;
 import by.testbot.bot.BotState;
+import by.testbot.bot.MessageSender;
 import by.testbot.models.ViberUpdate;
 import by.testbot.models.enums.Status;
 import by.testbot.payload.requests.message.*;
@@ -254,7 +255,10 @@ public class ViberService {
         }
         else if (viberUpdate.hasSubscribedCallback()) {
             logger.info("Received SubscribedCallback from user: " + viberUpdate.getSubscribedCallback().getUser().getViberId());
+            
             // handle callback
+
+            MessageSender.sendHelloWorldMessage(this, viberUpdate.getSubscribedCallback().getUser().getViberId());
         }
         else if (viberUpdate.hasUnsubscribedCallback()) {
             logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
@@ -264,10 +268,10 @@ public class ViberService {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             // handle callback
 
-            BotState botState = BotState.ConversationStarted;
-            BotContext botContext = BotContext.of(this, viberUpdate.getConversationStartedCallback());
+            // BotState botState = BotState.ConversationStarted;
+            // BotContext botContext = BotContext.of(this, viberUpdate.getConversationStartedCallback());
 
-            botState.enter(botContext);
+            // botState.enter(botContext);
         }
         else if (viberUpdate.hasWebhookCallback()) {
             logger.info("Received WebhookCallback.");
