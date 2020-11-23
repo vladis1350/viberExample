@@ -5,6 +5,19 @@ import by.testbot.payload.requests.message.SendTextMessageRequest;
 import by.testbot.services.ViberService;
 
 public class MessageSender {
+    public static void sendHelloWorldMessage(ViberService viberService, String viberId) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+
+        sendTextMessageRequest.setText("Привет");
+        sendTextMessageRequest.setSender(sender);
+        sendTextMessageRequest.setUserId(viberId);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
+    }
+
     public static void sendAddTextMessage(ViberService viberService, String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
