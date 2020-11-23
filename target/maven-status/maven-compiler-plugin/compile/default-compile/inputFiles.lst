@@ -1,5 +1,6 @@
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\Button.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\bot\KeyboardSender.java
+D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\bot\MessageSender.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\config\FeignErrorDecoder.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\services\UserService.java
 D:\Visual Studio Code Projects\vibertestbot\src\main\java\by\testbot\models\enums\Status.java
