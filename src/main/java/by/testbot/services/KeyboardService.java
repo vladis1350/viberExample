@@ -1,11 +1,18 @@
-package by.testbot.bot;
+package by.testbot.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import by.testbot.bot.KeyboardSource;
 import by.testbot.models.Sender;
 import by.testbot.payload.requests.message.SendTextMessageRequest;
-import by.testbot.services.ViberService;
 
-public class KeyboardSender {
-    public static void sendAdminMainMenuKeyboard(ViberService viberService, String viberId) {
+@Service
+public class KeyboardService {
+    @Autowired
+    private ViberService viberService;
+
+    public void sendAdminMainMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -19,7 +26,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     } 
 
-    public static void sendListOfManagersMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendListOfManagersMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -33,7 +40,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendListOfClientsMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendListOfClientsMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -47,7 +54,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendReportMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendReportMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -61,7 +68,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendIntegrationsMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendIntegrationsMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -75,7 +82,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendSettingsMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendSettingsMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -89,7 +96,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendBotUsagePeriodMenuKeyboard(ViberService viberService, String viberId) {
+    public void sendBotUsagePeriodMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -103,7 +110,7 @@ public class KeyboardSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendConfirmPostponeMessageKeyboard(ViberService viberService, String viberId) {
+    public void sendConfirmPostponeMessageKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 

@@ -1,11 +1,17 @@
-package by.testbot.bot;
+package by.testbot.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import by.testbot.models.Sender;
 import by.testbot.payload.requests.message.SendTextMessageRequest;
-import by.testbot.services.ViberService;
 
-public class MessageSender {
-    public static void sendHelloWorldMessage(ViberService viberService, String viberId) {
+@Service
+public class MessageService {
+    @Autowired
+    private ViberService viberService;
+
+    public void sendHelloWorldMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -18,7 +24,7 @@ public class MessageSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendAddTextMessage(ViberService viberService, String viberId) {
+    public void sendAddTextMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -31,7 +37,7 @@ public class MessageSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendAddPhotoMessage(ViberService viberService, String viberId) {
+    public void sendAddPhotoMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -44,7 +50,7 @@ public class MessageSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendSelectDateAndTimeMessage(ViberService viberService, String viberId) {
+    public void sendSelectDateAndTimeMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -57,39 +63,39 @@ public class MessageSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendListOfManagersMessage(ViberService viberService, String viberId) {
+    public void sendListOfManagersMessage(String viberId) {
         //TODO: get and send list of managers
     }
 
-    public static void sendAddManagerMessage(ViberService viberService, String viberId) {
+    public void sendAddManagerMessage(String viberId) {
         //TODO: send add manager details messages
     }
 
-    public static void sendDeleteManagerMessage(ViberService viberService, String viberId) {
+    public void sendDeleteManagerMessage(String viberId) {
         //TODO: send delete manager details messages
     }
 
-    public static void changeManagerPrivilegiesMessage(ViberService viberService, String viberId) {
+    public void changeManagerPrivilegiesMessage(String viberId) {
         //TODO: send change manager privilegies details message
     }
 
-    public static void sendListOfClientsMessage(ViberService viberService, String viberId) {
+    public void sendListOfClientsMessage(String viberId) {
         //TODO: get and send list of clients
     }
 
-    public static void sendAdditionalOperationsWithClientsMessage(ViberService viberService, String viberId) {
+    public void sendAdditionalOperationsWithClientsMessage(String viberId) {
         //TODO: send additional operations with clients details messages
     }
 
-    public static void sendGetReportAboutManagersWork(ViberService viberService, String viberId) {
+    public void sendGetReportAboutManagersWork(String viberId) {
         //TODO: create and send report about managers work
     }
 
-    public static void sendGetReportAboutBotWork(ViberService viberService, String viberId) {
+    public void sendGetReportAboutBotWork(String viberId) {
         //TODO: create and send report about bot work
     }
 
-    public static void sendAddIntegrationMessage(ViberService viberService, String viberId) {
+    public void sendAddIntegrationMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
@@ -102,23 +108,23 @@ public class MessageSender {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public static void sendDeleteIntegrationMessage(ViberService viberService, String viberId) {
+    public void sendDeleteIntegrationMessage(String viberId) {
         //TODO: send delete integration details message
     }
 
-    public static void sendNewIntegrationsMessage(ViberService viberService, String viberId) {
+    public void sendNewIntegrationsMessage(String viberId) {
         //TODO: get and send list of integrations ?????
     }
 
-    public static void sendListOfMessagesWhichBotSendMessage(ViberService viberService, String viberId) {
+    public void sendListOfMessagesWhichBotSendMessage(String viberId) {
         //TODO: get and send list of messages which bot send
     }
 
-    public static void sendInChatBotWorkTimePeriodSettingsMessage(ViberService viberService, String viberId) {
+    public void sendInChatBotWorkTimePeriodSettingsMessage(String viberId) {
         //TODO: send in chat bot work time period settings details
     }
 
-    public static void sendAtNightBotWorkTimePeriodSettingsMessage(ViberService viberService, String viberId) {
+    public void sendAtNightBotWorkTimePeriodSettingsMessage(String viberId) {
         //TODO: send at night bot work time period settings details
     }
 }
