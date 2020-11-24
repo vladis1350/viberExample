@@ -7,6 +7,7 @@ by\testbot\models\Keyboard.class
 by\testbot\models\Message.class
 by\testbot\models\enums\button\ImageScaleType.class
 by\testbot\models\Sender.class
+by\testbot\services\MessageService.class
 by\testbot\services\InitializationService.class
 by\testbot\models\enums\button\BackgroundMediaScaleType.class
 by\testbot\bot\BotContext.class
@@ -14,7 +15,6 @@ by\testbot\bot\KeyboardSource.class
 by\testbot\models\enums\Status.class
 by\testbot\models\User.class
 by\testbot\services\WebhookService.class
-by\testbot\bot\MessageSender.class
 by\testbot\config\FeignConfiguration.class
 by\testbot\services\ViberService.class
 by\testbot\payload\requests\message\SendLocationMessageRequest.class
@@ -29,7 +29,6 @@ by\testbot\models\enums\button\ActionType.class
 by\testbot\services\UserService.class
 by\testbot\models\enums\button\TextAlign.class
 by\testbot\config\FeignErrorDecoder.class
-by\testbot\bot\KeyboardSender.class
 by\testbot\payload\requests\message\SendVideoMessageRequest.class
 by\testbot\models\Contact.class
 by\testbot\payload\callbacks\ConversationStartedCallback.class
@@ -51,6 +50,7 @@ by\testbot\models\enums\EventType.class
 by\testbot\payload\callbacks\FailedCallback.class
 by\testbot\payload\responses\SetWebhookResponse.class
 by\testbot\models\ViberUpdate.class
+by\testbot\services\KeyboardService.class
 by\testbot\payload\requests\message\SendPictureMessageRequest.class
 by\testbot\TestbotApplication.class
 by\testbot\payload\requests\message\SendTextMessageRequest.class
