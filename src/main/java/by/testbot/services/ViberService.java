@@ -283,9 +283,9 @@ public class ViberService {
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("getListManagers")) {
                 messageService.sendListOfManagersMessage(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("addManager")) {
-                messageService.sendAddTextMessage(viberUpdate.getMessageCallback().getSender().getId(), "Введите ФИО Менеджера");
+                messageService.sendAddTextMessageManagerMenu(viberUpdate.getMessageCallback().getSender().getId(), "Введите ФИО Менеджера");
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("deleteManager")) {
-                messageService.sendAddTextMessage(viberUpdate.getMessageCallback().getSender().getId(), "Ща удалим");
+                messageService.sendAddTextMessageManagerMenu(viberUpdate.getMessageCallback().getSender().getId(), "Ща удалим");
             }
         }
     }
