@@ -1,5 +1,7 @@
 package by.testbot.services;
 
+import by.testbot.bot.KeyboardSource;
+import by.testbot.models.ViberUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import by.testbot.payload.requests.message.SendTextMessageRequest;
 public class MessageService {
     @Autowired
     private ViberService viberService;
+    @Autowired
+    private KeyboardService keyboardService;
 
     public void sendHelloWorldMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
@@ -17,9 +21,23 @@ public class MessageService {
 
         sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText("Привет");
+        sendTextMessageRequest.setText("Привет ");
         sendTextMessageRequest.setSender(sender);
         sendTextMessageRequest.setUserId(viberId);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
+    }
+
+    public void sendHelloWorldMessage(ViberUpdate viberUpdate) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+
+        sendTextMessageRequest.setText("Привет " + viberUpdate.getSubscribedCallback().getUser().getName());
+        sendTextMessageRequest.setSender(sender);
+        sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
+        sendTextMessageRequest.setUserId(viberUpdate.getSubscribedCallback().getUser().getViberId());
 
         viberService.sendTextMessage(sendTextMessageRequest);
     }

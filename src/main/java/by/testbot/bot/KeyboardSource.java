@@ -12,46 +12,32 @@ public class KeyboardSource {
         List<Button> buttons = new ArrayList<>();
 
         Button postponeMessageButton = new Button();
-        postponeMessageButton.setText("Отложенное сообщение");
-        postponeMessageButton.setActionBody("Отложенное сообщение");
+        postponeMessageButton.setText("Изменение текстовых ссобщений");
+        postponeMessageButton.setActionBody("editTextMessage");
         postponeMessageButton.setColumns(3);
         postponeMessageButton.setRows(1);
         buttons.add(postponeMessageButton);
 
         Button listOfManagersButton = new Button();
-        listOfManagersButton.setText("Список менеджеров");
-        listOfManagersButton.setActionBody("Список менеджеров");
+        listOfManagersButton.setText("Автопостинг");
+        listOfManagersButton.setActionBody("autopost");
         listOfManagersButton.setColumns(3);
         listOfManagersButton.setRows(1);
         buttons.add(listOfManagersButton);
 
         Button listOfClientsButton = new Button();
-        listOfClientsButton.setText("Список клиентов");
-        listOfClientsButton.setActionBody("Список клиентов");
+        listOfClientsButton.setText("Список менеджеров");
+        listOfClientsButton.setActionBody("managerList");
         listOfClientsButton.setColumns(3);
         listOfClientsButton.setRows(1);
         buttons.add(listOfClientsButton);
 
         Button reportButton = new Button();
-        reportButton.setText("Отчет");
-        reportButton.setActionBody("Отчет");
+        reportButton.setText("Заявки из бота");
+        reportButton.setActionBody("botRequest");
         reportButton.setColumns(3);
         reportButton.setRows(1);
         buttons.add(reportButton);
-
-        Button integrationButton = new Button();
-        integrationButton.setText("Интеграции");
-        integrationButton.setActionBody("Интеграции");
-        integrationButton.setColumns(3);
-        integrationButton.setRows(1);
-        buttons.add(integrationButton);
-
-        Button settingsButton = new Button();
-        settingsButton.setText("Настройка");
-        settingsButton.setActionBody("Настройка");
-        settingsButton.setColumns(3);
-        settingsButton.setRows(1);
-        buttons.add(settingsButton);
 
         keyboard.setButtons(buttons);
         return keyboard;
@@ -63,28 +49,28 @@ public class KeyboardSource {
 
         Button getListOfManagersButton = new Button();
         getListOfManagersButton.setText("Получить список менеджеров");
-        getListOfManagersButton.setActionBody("Получить список менеджеров");
+        getListOfManagersButton.setActionBody("getListManagers");
         getListOfManagersButton.setColumns(3);
         getListOfManagersButton.setRows(1);
         buttons.add(getListOfManagersButton);
 
         Button addManagerButton = new Button();
         addManagerButton.setText("Добавить менеджера");
-        addManagerButton.setActionBody("Добавить менеджера");
+        addManagerButton.setActionBody("addManager");
         addManagerButton.setColumns(3);
         addManagerButton.setRows(1);
         buttons.add(addManagerButton);
 
         Button deleteManagerButton = new Button();
         deleteManagerButton.setText("Удалить менеджера");
-        deleteManagerButton.setActionBody("Удалить менеджера");
+        deleteManagerButton.setActionBody("deleteManager");
         deleteManagerButton.setColumns(3);
         deleteManagerButton.setRows(1);
         buttons.add(deleteManagerButton);
 
         Button changePrivilegesButton = new Button();
         changePrivilegesButton.setText("Изменение привелегий");
-        changePrivilegesButton.setActionBody("Изменение привелегий");
+        changePrivilegesButton.setActionBody("editPrivileges");
         changePrivilegesButton.setColumns(3);
         changePrivilegesButton.setRows(1);
         buttons.add(changePrivilegesButton);

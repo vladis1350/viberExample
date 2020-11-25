@@ -20,7 +20,7 @@ import by.testbot.utils.Utils;
 @Service
 public class ViberService {
     private static final Logger logger = LoggerFactory.getLogger(ViberService.class);
-    
+
     @Autowired
     private ViberProxy viberProxy;
 
@@ -56,8 +56,7 @@ public class ViberService {
 
         if (setWebhookResponse.getStatus() == Status.OK) {
             logger.info("Webhook setted with response: " + setWebhookResponse.getStatusMessage() + ", events: " + setWebhookResponse.getEventTypes());
-        }
-        else {
+        } else {
             logger.error("Webhook not setted with code: " + setWebhookResponse.getStatus() + ", with message: " + setWebhookResponse.getStatusMessage());
         }
     }
@@ -77,8 +76,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Text message sended to user: " + sendTextMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Text message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -101,8 +99,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Picture message sended to user: " + sendPictureMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Picture message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -125,8 +122,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Video message sended to user: " + sendVideoMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Video message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -152,8 +148,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("File message sended to user: " + sendFileMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("File message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -176,8 +171,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Contact message sended to user: " + sendContactMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Contact message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -197,8 +191,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Location message sended to user: " + sendLocationMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Location message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -218,8 +211,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Url message sended to user: " + sendUrlMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Url message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -239,8 +231,7 @@ public class ViberService {
 
         if (sendMessageResponse.getStatus() == Status.OK) {
             logger.info("Sticker message sended to user: " + sendStickerMessageRequest.getUserId());
-        }
-        else {
+        } else {
             logger.warn("Sticker message not sended: " + sendMessageResponse.getStatus() + ". Error: " + sendMessageResponse.getStatusMessage());
         }
     }
@@ -249,27 +240,22 @@ public class ViberService {
         if (viberUpdate.hasDeliveredCallback()) {
             logger.info("Received DeliveredCallback from user: " + viberUpdate.getDeliveredCallback().getUserId());
             // handle callback
-        }
-        else if (viberUpdate.hasSeenCallback()) {
+        } else if (viberUpdate.hasSeenCallback()) {
             logger.info("Received SeenCallback from user: " + viberUpdate.getSeenCallback().getUserId());
             // handle callback
-        }
-        else if (viberUpdate.hasFailedCallback()) {
+        } else if (viberUpdate.hasFailedCallback()) {
             logger.info("Received FailedCallback from user: " + viberUpdate.getFailedCallback().getUserId() + ", with message: " + viberUpdate.getFailedCallback().getDescription());
             // handle callback
-        }
-        else if (viberUpdate.hasSubscribedCallback()) {
+        } else if (viberUpdate.hasSubscribedCallback()) {
             logger.info("Received SubscribedCallback from user: " + viberUpdate.getSubscribedCallback().getUser().getViberId());
-            
+
             // handle callback
 
-            messageService.sendHelloWorldMessage(viberUpdate.getSubscribedCallback().getUser().getViberId());
-        }
-        else if (viberUpdate.hasUnsubscribedCallback()) {
+            messageService.sendHelloWorldMessage(viberUpdate);
+        } else if (viberUpdate.hasUnsubscribedCallback()) {
             logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
             // handle callback
-        }
-        else if (viberUpdate.hasConversationStartedCallback()) {
+        } else if (viberUpdate.hasConversationStartedCallback()) {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             // handle callback
 
@@ -277,14 +263,20 @@ public class ViberService {
             BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getConversationStartedCallback());
 
             botState.enter(botContext);
-        }
-        else if (viberUpdate.hasWebhookCallback()) {
+        } else if (viberUpdate.hasWebhookCallback()) {
             logger.info("Received WebhookCallback.");
             // handle callback
-        }
-        else if (viberUpdate.hasMessageCallback()) {
+        } else if (viberUpdate.hasMessageCallback()) {
             logger.info("Received MessageCallback from user: " + viberUpdate.getMessageCallback().getSender().getId() + ", message type: " + viberUpdate.getMessageCallback().getMessage().getMessageType());
-            // handle callback
+            if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("managerList")) {
+                messageService.sendHelloWorldMessage(viberUpdate.getMessageCallback().getSender().getId());
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("autopost")) {
+
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("editTextMessage")) {
+
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("botRequest")) {
+
+            }
         }
     }
 
