@@ -51,29 +51,29 @@ public class KeyboardSource {
         Button cancelToMainMenu = new Button();
         cancelToMainMenu.setText("Главное меню");
         cancelToMainMenu.setActionBody("cancelToMainMenu");
-        cancelToMainMenu.setColumns(1);
+        cancelToMainMenu.setColumns(6);
         cancelToMainMenu.setRows(1);
         buttons.add(cancelToMainMenu);
 
         Button getListOfManagersButton = new Button();
         getListOfManagersButton.setText("Список");
         getListOfManagersButton.setActionBody("getListManagers");
-        getListOfManagersButton.setColumns(1);
-        getListOfManagersButton.setRows(2);
+        getListOfManagersButton.setColumns(3);
+        getListOfManagersButton.setRows(1);
         buttons.add(getListOfManagersButton);
 
         Button addManagerButton = new Button();
         addManagerButton.setText("Добавить менеджера");
         addManagerButton.setActionBody("addManager");
-        addManagerButton.setColumns(2);
-        addManagerButton.setRows(3);
+        addManagerButton.setColumns(3);
+        addManagerButton.setRows(1);
         buttons.add(addManagerButton);
 
         Button deleteManagerButton = new Button();
         deleteManagerButton.setText("Удалить менеджера");
         deleteManagerButton.setActionBody("deleteManager");
-        deleteManagerButton.setColumns(2);
-        deleteManagerButton.setRows(3);
+        deleteManagerButton.setColumns(3);
+        deleteManagerButton.setRows(1);
         buttons.add(deleteManagerButton);
 
 //        Button changePrivilegesButton = new Button();
