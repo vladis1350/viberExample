@@ -1,13 +1,8 @@
 package by.testbot.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
+import by.testbot.bot.BotState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +30,7 @@ public class User {
     private String name;
 
     @JsonProperty("avatar")
-    @Column(name = "Avatar", nullable = false)
+    @Column(name = "Avatar")
     private String avatar;
 
     @JsonProperty("country")
@@ -48,6 +43,10 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private String role;
+
+    @Column(name = "bot_state", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private BotState botState;
 
     @JsonProperty("primary_device_os")
     @Transient

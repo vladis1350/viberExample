@@ -22,6 +22,7 @@ public class ViberUpdate {
     private SubscribedCallback subscribedCallback;
     private UnsubscribedCallback unsubscribedCallback;
     private WebhookCallback webhookCallback;
+//    private ContactCallback contactCallback;
 
     public Boolean hasConversationStartedCallback() {
         return !Objects.isNull(this.conversationStartedCallback);

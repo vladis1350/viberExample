@@ -1,5 +1,6 @@
 package by.testbot.services;
 
+import by.testbot.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -252,8 +253,7 @@ public class ViberService {
         } else if (viberUpdate.hasSubscribedCallback()) {
             logger.info("Received SubscribedCallback from user: " + viberUpdate.getSubscribedCallback().getUser().getViberId());
 
-            messageService.sendHelloWorldMessage(viberUpdate);
-            userService.save(viberUpdate.getSubscribedCallback().getUser());
+//            messageService.sendHelloWorldMessage(viberUpdate);
         } else if (viberUpdate.hasUnsubscribedCallback()) {
             logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
             // handle callback
@@ -265,11 +265,14 @@ public class ViberService {
             BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getConversationStartedCallback());
 
             botState.enter(botContext);
+            userService.save(viberUpdate.getSubscribedCallback().getUser());
         } else if (viberUpdate.hasWebhookCallback()) {
             logger.info("Received WebhookCallback.");
             // handle callback
         } else if (viberUpdate.hasMessageCallback()) {
             logger.info("Received MessageCallback from user: " + viberUpdate.getMessageCallback().getSender().getId() + ", message type: " + viberUpdate.getMessageCallback().getMessage().getMessageType());
+            logger.info("" + viberUpdate.getMessageCallback().getMessage().getContact().getPhoneNumber());
+
             if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("managerList")) {
                 keyboardService.sendListOfManagersMenuKeyboard(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("autopost")) {
@@ -283,10 +286,27 @@ public class ViberService {
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("getListManagers")) {
                 messageService.sendListOfManagersMessage(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("addManager")) {
-                BotState botState = BotState.ADDING_MANAGER;
-                BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
-                botState.enter(botContext);
-                messageService.askUserNumberForPrivilegeManager(viberUpdate.getMessageCallback().getSender().getId());
+                User user = userService.getByViberId(viberUpdate.getMessageCallback().getSender().getId());
+                if (user != null) {
+                    if (user.getBotState() != BotState.ADDING_MANAGER) {
+                        BotState botState = BotState.ADDING_MANAGER;
+                        BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+                        botState.enter(botContext);
+
+                        user.setBotState(botState);
+
+                        userService.save(user);
+                    } else {
+                        BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+
+                        user.getBotState().handleInput(botContext);
+                        BotState nextState = user.getBotState().nextState();
+                        user.setBotState(nextState);
+
+                        userService.save(user);
+                    }
+                }
+
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("deleteManager")) {
                 messageService.askManagerNumberForPrivilegeUser(viberUpdate.getMessageCallback().getSender().getId());
             }

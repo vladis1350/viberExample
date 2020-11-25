@@ -23,7 +23,8 @@ public enum BotState {
     ADDING_MANAGER(0, true) {
         @Override
         public void enter(BotContext botContext) {
-            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getMessageCallback().getSender());
+//            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getMessageCallback().getSender());
+            botContext.getMessageService().askUserNumberForPrivilegeManager(botContext.getMessageCallback().getSender().getId());
         }
 
         @Override

@@ -52,7 +52,7 @@ public class MessageService {
 
         String list = "Менеджеры: \n";
         list = list.concat(userService.getListManagerToString());
-        list = list.concat("\n Введите номер менеджера, с которого хотите снять привилегию: ");
+        list = list.concat("\nВведите номер менеджера, с которого хотите снять привилегию: ");
 
         sendTextMessageRequest.setText(list);
         sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
