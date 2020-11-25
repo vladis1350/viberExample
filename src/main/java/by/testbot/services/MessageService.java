@@ -42,13 +42,14 @@ public class MessageService {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public void sendAddTextMessage(String viberId) {
+    public void sendAddTextMessage(String viberId, String text) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
         sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText("Введите текст, который будет отправлен");
+        sendTextMessageRequest.setText(text);
+//        sendTextMessageRequest.setTrackingData("addManager");
         sendTextMessageRequest.setSender(sender);
         sendTextMessageRequest.setUserId(viberId);
 
@@ -82,7 +83,19 @@ public class MessageService {
     }
 
     public void sendListOfManagersMessage(String viberId) {
-        //TODO: get and send list of managers
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+        String listManagers = "Список менеджеров: \n" +
+                "   1. Иван Иванович\n" +
+                "   2. Иван Фомич\n" +
+                "   3. Иван Кузмич";
+        sendTextMessageRequest.setText(listManagers);
+        sendTextMessageRequest.setSender(sender);
+        sendTextMessageRequest.setUserId(viberId);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
     }
 
     public void sendAddManagerMessage(String viberId) {

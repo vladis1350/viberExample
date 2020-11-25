@@ -5,6 +5,7 @@ import java.util.List;
 
 import by.testbot.models.Button;
 import by.testbot.models.Keyboard;
+import by.testbot.models.enums.button.ActionType;
 
 public class KeyboardSource {
     public static Keyboard getAdminMainMenuKeyboard() {
@@ -47,8 +48,15 @@ public class KeyboardSource {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
 
+        Button cancelToMainMenu = new Button();
+        cancelToMainMenu.setText("Главное меню");
+        cancelToMainMenu.setActionBody("cancelToMainMenu");
+        cancelToMainMenu.setColumns(1);
+        cancelToMainMenu.setRows(1);
+        buttons.add(cancelToMainMenu);
+
         Button getListOfManagersButton = new Button();
-        getListOfManagersButton.setText("Получить список менеджеров");
+        getListOfManagersButton.setText("Список");
         getListOfManagersButton.setActionBody("getListManagers");
         getListOfManagersButton.setColumns(3);
         getListOfManagersButton.setRows(1);
@@ -68,12 +76,12 @@ public class KeyboardSource {
         deleteManagerButton.setRows(1);
         buttons.add(deleteManagerButton);
 
-        Button changePrivilegesButton = new Button();
-        changePrivilegesButton.setText("Изменение привелегий");
-        changePrivilegesButton.setActionBody("editPrivileges");
-        changePrivilegesButton.setColumns(3);
-        changePrivilegesButton.setRows(1);
-        buttons.add(changePrivilegesButton);
+//        Button changePrivilegesButton = new Button();
+//        changePrivilegesButton.setText("Изменение привелегий");
+//        changePrivilegesButton.setActionBody("editPrivileges");
+//        changePrivilegesButton.setColumns(3);
+//        changePrivilegesButton.setRows(1);
+//        buttons.add(changePrivilegesButton);
 
         keyboard.setButtons(buttons);
         return keyboard;

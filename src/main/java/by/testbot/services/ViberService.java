@@ -36,6 +36,9 @@ public class ViberService {
     @Value("${testbot.webhookUrl}")
     private String webhookUrl;
 
+    @Autowired
+    private UserService userService;
+
     public void setWeebhook() {
         if (authenticationToken == null || authenticationToken.isEmpty() || authenticationToken.isBlank()) {
             logger.error("Authentication token has invalid type.");
@@ -249,9 +252,8 @@ public class ViberService {
         } else if (viberUpdate.hasSubscribedCallback()) {
             logger.info("Received SubscribedCallback from user: " + viberUpdate.getSubscribedCallback().getUser().getViberId());
 
-            // handle callback
-
             messageService.sendHelloWorldMessage(viberUpdate);
+            userService.save(viberUpdate.getSubscribedCallback().getUser());
         } else if (viberUpdate.hasUnsubscribedCallback()) {
             logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
             // handle callback
@@ -269,13 +271,21 @@ public class ViberService {
         } else if (viberUpdate.hasMessageCallback()) {
             logger.info("Received MessageCallback from user: " + viberUpdate.getMessageCallback().getSender().getId() + ", message type: " + viberUpdate.getMessageCallback().getMessage().getMessageType());
             if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("managerList")) {
-                messageService.sendHelloWorldMessage(viberUpdate.getMessageCallback().getSender().getId());
+                keyboardService.sendListOfManagersMenuKeyboard(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("autopost")) {
 
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("editTextMessage")) {
 
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("botRequest")) {
 
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("cancelToMainMenu")) {
+                keyboardService.sendAdminMainMenuKeyboard(viberUpdate.getMessageCallback().getSender().getId());
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("getListManagers")) {
+                messageService.sendListOfManagersMessage(viberUpdate.getMessageCallback().getSender().getId());
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("addManager")) {
+                messageService.sendAddTextMessage(viberUpdate.getMessageCallback().getSender().getId(), "Введите ФИО Менеджера");
+            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("deleteManager")) {
+                messageService.sendAddTextMessage(viberUpdate.getMessageCallback().getSender().getId(), "Ща удалим");
             }
         }
     }
