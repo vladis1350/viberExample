@@ -46,6 +46,9 @@ public class User {
     @Column(name = "Language", nullable = false)
     private String language;
 
+    @Column(name = "role", nullable = false)
+    private String role;
+
     @JsonProperty("primary_device_os")
     @Transient
     private String primaryDeviceOs;

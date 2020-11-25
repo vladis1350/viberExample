@@ -17,7 +17,15 @@ public class UserService {
 
     @Transactional
     public void save(User user) {
-        userRepository.save(user);
+        User existUser = userRepository.findUserByViberId(user.getViberId());
+        if (existUser == null) {
+            if (!user.getViberId().equals("afWPwJpM+p0fgkl/LxUkrA==")) {
+                user.setRole("user");
+            } else {
+                user.setRole("admin");
+            }
+            userRepository.save(user);
+        }
     }
 
     @Transactional
@@ -42,6 +50,7 @@ public class UserService {
 
     @Transactional
     public User getByViberId(String viberId) {
-        return userRepository.findAll().stream().filter(u -> u.getViberId().equals(viberId)).findAny().orElse(null);
+        return userRepository.findUserByViberId(viberId);
+//        return userRepository.findAll().stream().filter(u -> u.getViberId().equals(viberId)).findAny().orElse(null);
     }
 }
