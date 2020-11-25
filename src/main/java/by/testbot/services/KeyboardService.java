@@ -1,5 +1,6 @@
 package by.testbot.services;
 
+import by.testbot.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +13,35 @@ public class KeyboardService {
     @Autowired
     private ViberService viberService;
 
-    public void sendAdminMainMenuKeyboard(String viberId) {
+    public void sendAdminMainMenuKeyboard(User user) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
         sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText("Главное меню");
+        sendTextMessageRequest.setText("Привет " + user.getName() + "!\n" +
+                "Воспользуйся главным меню");
         sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
-        sendTextMessageRequest.setUserId(viberId);
+        sendTextMessageRequest.setUserId(user.getViberId());
         sendTextMessageRequest.setSender(sender);
 
         viberService.sendTextMessage(sendTextMessageRequest);
-    } 
+    }
+
+    public void sendAdminMainMenuKeyboard(Sender user) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+
+        sendTextMessageRequest.setText("Привет " + user.getName() + "!\n" +
+                "Воспользуйся главным меню");
+        sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
+        sendTextMessageRequest.setUserId(user.getId());
+        sendTextMessageRequest.setSender(sender);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
+    }
 
     public void sendListOfManagersMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();

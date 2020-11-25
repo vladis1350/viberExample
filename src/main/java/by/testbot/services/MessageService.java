@@ -14,6 +14,8 @@ public class MessageService {
     private ViberService viberService;
     @Autowired
     private KeyboardService keyboardService;
+    @Autowired
+    private UserService userService;
 
     public void sendHelloWorldMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
@@ -42,13 +44,36 @@ public class MessageService {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public void sendAddTextMessageManagerMenu(String viberId, String text) {
+    public void askManagerNumberForPrivilegeUser(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
         sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText(text);
+        String list = "Менеджеры: \n";
+        list = list.concat(userService.getListManagerToString());
+        list = list.concat("\n Введите номер менеджера, с которого хотите снять привилегию: ");
+
+        sendTextMessageRequest.setText(list);
+        sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+//        sendTextMessageRequest.setTrackingData("addManager");
+        sendTextMessageRequest.setSender(sender);
+        sendTextMessageRequest.setUserId(viberId);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
+    }
+
+    public void askUserNumberForPrivilegeManager(String viberId) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+
+        String list = "Пользователи: \n";
+        list = list.concat(userService.getListUsersToString());
+        list = list.concat("\n Введите номер пользователя, которого хотите сделать менеджером: ");
+
+        sendTextMessageRequest.setText(list);
         sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
 //        sendTextMessageRequest.setTrackingData("addManager");
         sendTextMessageRequest.setSender(sender);
@@ -88,10 +113,7 @@ public class MessageService {
         Sender sender = new Sender();
 
         sender.setName("AutoCapitalBot");
-        String listManagers = "Список менеджеров: \n" +
-                "   1. Иван Иванович\n" +
-                "   2. Иван Фомич\n" +
-                "   3. Иван Кузмич";
+        String listManagers = userService.getListUsersToString();
         sendTextMessageRequest.setText(listManagers);
         sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
         sendTextMessageRequest.setSender(sender);

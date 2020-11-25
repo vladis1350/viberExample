@@ -261,7 +261,7 @@ public class ViberService {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             // handle callback
 
-            BotState botState = BotState.ConversationStarted;
+            BotState botState = BotState.CONVERSATION_STARTED;
             BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getConversationStartedCallback());
 
             botState.enter(botContext);
@@ -279,13 +279,16 @@ public class ViberService {
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("botRequest")) {
 
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("cancelToMainMenu")) {
-                keyboardService.sendAdminMainMenuKeyboard(viberUpdate.getMessageCallback().getSender().getId());
+                keyboardService.sendAdminMainMenuKeyboard(viberUpdate.getMessageCallback().getSender());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("getListManagers")) {
                 messageService.sendListOfManagersMessage(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("addManager")) {
-                messageService.sendAddTextMessageManagerMenu(viberUpdate.getMessageCallback().getSender().getId(), "Введите ФИО Менеджера");
+                BotState botState = BotState.ADDING_MANAGER;
+                BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+                botState.enter(botContext);
+                messageService.askUserNumberForPrivilegeManager(viberUpdate.getMessageCallback().getSender().getId());
             } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("deleteManager")) {
-                messageService.sendAddTextMessageManagerMenu(viberUpdate.getMessageCallback().getSender().getId(), "Ща удалим");
+                messageService.askManagerNumberForPrivilegeUser(viberUpdate.getMessageCallback().getSender().getId());
             }
         }
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import by.testbot.models.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,18 @@ public class UserService {
         User existUser = userRepository.findUserByViberId(user.getViberId());
         if (existUser == null) {
             if (!user.getViberId().equals("afWPwJpM+p0fgkl/LxUkrA==")) {
-                user.setRole("user");
+                user.setRole(Roles.USER.getRole());
             } else {
-                user.setRole("admin");
+                user.setRole(Roles.ADMIN.getRole());
             }
             userRepository.save(user);
         }
+    }
+
+    @Transactional
+    public void editRoleOnManager(User user) {
+        user.setRole(Roles.MANAGER.getRole());
+        userRepository.save(user);
     }
 
     @Transactional
@@ -41,6 +48,46 @@ public class UserService {
     @Transactional
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public List<User> getAllUsers() {
+        return userRepository.findUserByRole(Roles.USER.getRole());
+    }
+
+    @Transactional
+    public List<User> getAllUsersWithRoleManager() {
+        return userRepository.findUserByRole(Roles.MANAGER.getRole());
+    }
+
+    public String getListManagerToString() {
+        List<User> userList = getAllUsersWithRoleManager();
+        String list = "";
+        if (!userList.isEmpty()) {
+            for (int i = 0; i < userList.size(); i++) {
+                if (userList.get(i).getRole().equals(Roles.USER.getRole())) {
+                    list = list.concat(i + 1 + "." + userList.get(i).getName() + "\n");
+                }
+            }
+        } else {
+            list = "Список пуст";
+        }
+        return list;
+    }
+
+    public String getListUsersToString() {
+        List<User> userList = getAllUsers();
+        String list = "";
+        if (!userList.isEmpty()) {
+            for (int i = 0; i < userList.size(); i++) {
+                if (userList.get(i).getRole().equals(Roles.USER.getRole())) {
+                    list = list.concat(i + 1 + "." + userList.get(i).getName() + "\n");
+                }
+            }
+        } else {
+            list = "Список пуст";
+        }
+        return list;
     }
 
     @Transactional

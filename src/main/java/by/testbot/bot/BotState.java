@@ -3,10 +3,10 @@ package by.testbot.bot;
 import java.util.Arrays;
 
 public enum BotState {
-    ConversationStarted(0, true) {
+    CONVERSATION_STARTED(0, true) {
         @Override
         public void enter(BotContext botContext) {
-            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getConversationStartedCallback().getUser().getViberId());
+            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getConversationStartedCallback().getUser());
         }
 
         @Override
@@ -16,7 +16,24 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return ConversationStarted;
+            return CONVERSATION_STARTED;
+        }
+    },
+
+    ADDING_MANAGER(0, true) {
+        @Override
+        public void enter(BotContext botContext) {
+            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getMessageCallback().getSender());
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+
+        }
+
+        @Override
+        public BotState nextState() {
+            return ADDING_MANAGER;
         }
     };
 
@@ -37,7 +54,7 @@ public enum BotState {
     }
 
     public static BotState byId(Integer id) {
-        return Arrays.asList(BotState.values()).stream().filter(b -> b.getId().equals(id)).findFirst().orElse(ConversationStarted);
+        return Arrays.asList(BotState.values()).stream().filter(b -> b.getId().equals(id)).findFirst().orElse(CONVERSATION_STARTED);
     }
 
     public Boolean getIsInputNeeded() { return isInputNeeded; }
