@@ -28,19 +28,13 @@ public class KeyboardService {
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
-    public void sendAdminMainMenuKeyboard(Sender user) {
-
-
-//        viberService.sendTextMessage(sendTextMessageRequest);
-    }
-
     public void sendListOfManagersMenuKeyboard(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
 
         sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText("Список менеджеров");
+        sendTextMessageRequest.setText("Управление менеджерами");
         sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
         sendTextMessageRequest.setUserId(viberId);
         sendTextMessageRequest.setSender(sender);

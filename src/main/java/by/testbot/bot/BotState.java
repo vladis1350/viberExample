@@ -5,6 +5,7 @@ import by.testbot.models.User;
 import by.testbot.models.enums.Roles;
 import by.testbot.payload.requests.message.SendPictureMessageRequest;
 import by.testbot.payload.requests.message.SendTextMessageRequest;
+import by.testbot.regex.RegexHandler;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public enum BotState {
 
             sender.setName("AutoCapitalBot");
 
-            sendTextMessageRequest.setText("Привет бот MEGA LIFE");
+            sendTextMessageRequest.setText("Привет я бот MEGA LIFE");
             sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
             sendTextMessageRequest.setUserId(botContext.getMessageCallback().getSender().getId());
             sendTextMessageRequest.setSender(sender);
@@ -110,6 +111,23 @@ public enum BotState {
         }
     },
 
+    EMPTY(true) {
+        @Override
+        public void enter(BotContext botContext) {
+
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+
+        }
+
+        @Override
+        public BotState nextState() {
+            return MAIN_MENU;
+        }
+    },
+
     EDIT_TEXT_MESSAGE(true) {
         @Override
         public void enter(BotContext botContext) {
@@ -167,7 +185,19 @@ public enum BotState {
     LIST_OF_MANAGERS(false) {
         @Override
         public void enter(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
 
+            String list = "Менеджеры: \n\n";
+            list = list.concat(botContext.getUserService().getListManagerToString());
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override
@@ -177,7 +207,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return MANAGERS;
+            return EMPTY;
         }
     },
 
@@ -192,7 +222,7 @@ public enum BotState {
             String list = "Выберите человека из списка контактов, которого хотите сделать менеджером: ";
 
             sendTextMessageRequest.setText(list);
-//            sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
             sendTextMessageRequest.setSender(sender);
             sendTextMessageRequest.setUserId(viberId);
 
@@ -226,7 +256,13 @@ public enum BotState {
                 User user = users.get(0);
                 user.setRole(Roles.MANAGER.getRole());
                 botContext.getUserService().update(user);
-                sendTextMessageRequest.setText(user.getName() + " теперь менеджер!");
+                sendTextMessageRequest.setText(name + " теперь менеджер!");
+                sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+                sendTextMessageRequest.setSender(sender);
+                sendTextMessageRequest.setUserId(viberId);
+                botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+            } else {
+                sendTextMessageRequest.setText(name + " не подписан на бота!");
                 sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
                 sendTextMessageRequest.setSender(sender);
                 sendTextMessageRequest.setUserId(viberId);
@@ -236,24 +272,60 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return MANAGERS;
+            return EMPTY;
         }
     },
 
     DELETE_MANAGER(true) {
         @Override
         public void enter(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
 
+            String list = "Менеджеры: \n\n";
+            list = list.concat(botContext.getUserService().getListManagerToString());
+            list = list.concat("\n\nВведите номер менеджера в списке чтобы снять роль менеджера:");
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override
         public void handleInput(BotContext botContext) {
+            String userAnswer = botContext.getMessageCallback().getMessage().getText();
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            if (RegexHandler.checkUserAnswerOnDigit(userAnswer)) {
+                int managerNumber = Integer.parseInt(userAnswer);
+                if(botContext.getUserService().editRoleOnUser(managerNumber) != null) {
+                    String message = "Роль менеджера с " + botContext.getUserService().editRoleOnUser(managerNumber).getName() + " снята!";
+                    sendTextMessageRequest.setText(message);
+                    sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+                    sendTextMessageRequest.setSender(sender);
+                    sendTextMessageRequest.setUserId(viberId);
 
+                    botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+                }
+            } else {
+                String message = "Введите номер менеджера в списке чтобы снять роль менеджера:";
+                sendTextMessageRequest.setText(message);
+                sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+                sendTextMessageRequest.setSender(sender);
+                sendTextMessageRequest.setUserId(viberId);
+
+                botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+            }
         }
 
         @Override
         public BotState nextState() {
-            return MANAGERS;
+            return EMPTY;
         }
     };
 

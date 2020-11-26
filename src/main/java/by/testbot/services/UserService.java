@@ -39,6 +39,19 @@ public class UserService {
     }
 
     @Transactional
+    public User editRoleOnUser(int managerNumber) {
+        List<User> managers = getAllUsersWithRoleManager();
+        if (managerNumber > managers.size() || managerNumber <= 0) {
+            return null;
+        } else {
+            User user = managers.get(managerNumber - 1);
+            user.setRole(Roles.USER.getRole());
+            userRepository.save(user);
+            return user;
+        }
+    }
+
+    @Transactional
     public void update(User user) {
         userRepository.save(user);
     }

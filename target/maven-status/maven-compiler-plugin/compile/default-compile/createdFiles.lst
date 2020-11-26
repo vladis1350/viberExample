@@ -28,6 +28,7 @@ by\testbot\payload\requests\message\SendFileMessageRequest.class
 by\testbot\payload\callbacks\UnsubscribedCallback.class
 by\testbot\bot\BotState$8.class
 by\testbot\models\Location.class
+by\testbot\bot\BotState$10.class
 by\testbot\models\Button.class
 by\testbot\models\enums\button\ActionType.class
 by\testbot\services\UserService.class
@@ -61,5 +62,6 @@ by\testbot\models\enums\Roles.class
 by\testbot\bot\BotState$6.class
 by\testbot\payload\requests\message\SendPictureMessageRequest.class
 by\testbot\bot\BotState$3.class
+by\testbot\regex\RegexHandler.class
 by\testbot\TestbotApplication.class
 by\testbot\payload\requests\message\SendTextMessageRequest.class

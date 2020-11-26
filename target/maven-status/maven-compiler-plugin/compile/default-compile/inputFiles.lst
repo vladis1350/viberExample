@@ -41,6 +41,7 @@ D:\job project\ViberTestBot\src\main\java\by\testbot\services\UserService.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\services\KeyboardService.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\models\Button.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\controllers\WebhookController.java
+D:\job project\ViberTestBot\src\main\java\by\testbot\regex\RegexHandler.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\models\Message.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\payload\requests\message\SendPictureMessageRequest.java
 D:\job project\ViberTestBot\src\main\java\by\testbot\models\enums\InputFieldState.java
