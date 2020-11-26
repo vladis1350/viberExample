@@ -86,7 +86,7 @@ public class UserService {
         String list = "";
         if (!userList.isEmpty()) {
             for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getRole().equals(Roles.USER.getRole())) {
+                if (userList.get(i).getRole().equals(Roles.MANAGER.getRole())) {
                     list = list.concat(i + 1 + "." + userList.get(i).getName() + "\n");
                 }
             }
