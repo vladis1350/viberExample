@@ -156,7 +156,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return MAIN_MENU;
+            return AUTO_POSTING;
         }
     },
 
@@ -274,7 +274,7 @@ public enum BotState {
                 if (numberMessage <= botMessages.size()) {
                     sender.setName("AutoCapitalBot");
                     sendTextMessageRequest.setKeyboard(KeyboardSource.getMenuKeyboardWithButtonsEditAndDeleteMessage());
-                    sendTextMessageRequest.setText(botMessages.get(numberMessage).getMessageText());
+                    sendTextMessageRequest.setText(botMessages.get(numberMessage - 1).getMessageText());
                     sendTextMessageRequest.setSender(sender);
                     sendTextMessageRequest.setUserId(viberId);
                     botContext.getViberService().sendTextMessage(sendTextMessageRequest);

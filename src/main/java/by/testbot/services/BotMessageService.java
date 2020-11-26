@@ -31,7 +31,7 @@ public class BotMessageService {
         if (!botMessages.isEmpty()) {
             for (int i = 0; i < botMessages.size(); i++) {
                 if (botMessages.get(i).getMessageText().length() > 100) {
-                    list = list.concat(i + 1 + ". " + botMessages.get(i).getMessageText().substring(0, 100) + "...");
+                    list = list.concat(i + 1 + ". " + botMessages.get(i).getMessageText().substring(0, 60) + "...");
                 } else {
                     list = list.concat("/n/n" + (i + 1) + ". " + botMessages.get(i).getMessageText());
                 }
