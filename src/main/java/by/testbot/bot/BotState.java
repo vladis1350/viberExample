@@ -207,7 +207,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return EMPTY;
+            return MANAGERS;
         }
     },
 
@@ -272,7 +272,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return EMPTY;
+            return MANAGERS;
         }
     },
 
@@ -325,7 +325,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return EMPTY;
+            return MANAGERS;
         }
     };
 

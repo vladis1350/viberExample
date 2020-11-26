@@ -285,6 +285,7 @@ public class ViberService {
 
             user.setViberId(viberId);
             user.setBotState(botState);
+            user.setAvatar(viberUpdate.getMessageCallback().getSender().getAvatarUrl());
             user.setCountry(viberUpdate.getMessageCallback().getSender().getCountry());
             user.setLanguage(viberUpdate.getMessageCallback().getSender().getLanguage());
             user.setName(viberUpdate.getMessageCallback().getSender().getName());
