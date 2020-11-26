@@ -4,6 +4,7 @@ by\testbot\models\enums\InputFieldState.class
 by\testbot\payload\requests\message\SendUrlMessageRequest.class
 by\testbot\payload\callbacks\SubscribedCallback.class
 by\testbot\models\Keyboard.class
+by\testbot\repositories\BotMessageRepository.class
 by\testbot\models\Message.class
 by\testbot\models\enums\button\ImageScaleType.class
 by\testbot\bot\BotState$5.class
@@ -25,6 +26,7 @@ by\testbot\controllers\WebhookController.class
 by\testbot\bot\BotState$1.class
 by\testbot\payload\responses\SendMessageResponse.class
 by\testbot\payload\requests\message\SendFileMessageRequest.class
+by\testbot\models\BotMessage.class
 by\testbot\payload\callbacks\UnsubscribedCallback.class
 by\testbot\bot\BotState$8.class
 by\testbot\models\Location.class
@@ -48,9 +50,11 @@ by\testbot\models\enums\MessageType.class
 by\testbot\payload\callbacks\DeliveredCallback.class
 by\testbot\models\enums\button\TextSize.class
 by\testbot\payload\requests\SetWebhookRequest.class
+by\testbot\services\BotMessageService.class
 by\testbot\payload\callbacks\MessageCallback.class
 by\testbot\payload\requests\message\SendStickerMessageRequest.class
 by\testbot\bot\BotState$7.class
+by\testbot\bot\BotState$11.class
 by\testbot\services\WebhookService$1.class
 by\testbot\models\enums\EventType.class
 by\testbot\payload\callbacks\FailedCallback.class
@@ -62,6 +66,7 @@ by\testbot\models\enums\Roles.class
 by\testbot\bot\BotState$6.class
 by\testbot\payload\requests\message\SendPictureMessageRequest.class
 by\testbot\bot\BotState$3.class
+by\testbot\models\BotMessage$BotMessageBuilder.class
 by\testbot\regex\RegexHandler.class
 by\testbot\TestbotApplication.class
 by\testbot\payload\requests\message\SendTextMessageRequest.class

@@ -8,16 +8,14 @@ import by.testbot.payload.callbacks.SeenCallback;
 import by.testbot.payload.callbacks.SubscribedCallback;
 import by.testbot.payload.callbacks.UnsubscribedCallback;
 import by.testbot.payload.callbacks.WebhookCallback;
-import by.testbot.services.MessageService;
-import by.testbot.services.UserService;
-import by.testbot.services.ViberService;
-import by.testbot.services.KeyboardService;
+import by.testbot.services.*;
 import lombok.Getter;
 
 @Getter
 public class BotContext {
     private final ViberService viberService;
     private final UserService userService;
+    private final BotMessageService botMessageService;
     private final MessageService messageService;
     private final KeyboardService KeyboardService;
     private final ConversationStartedCallback conversationStartedCallback;
@@ -29,9 +27,10 @@ public class BotContext {
     private final UnsubscribedCallback unsubscribedCallback;
     private final WebhookCallback webhookCallback;
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, ConversationStartedCallback conversationStartedCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, ConversationStartedCallback conversationStartedCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = conversationStartedCallback;
@@ -44,9 +43,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, DeliveredCallback deliveredCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, DeliveredCallback deliveredCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -59,9 +59,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, FailedCallback failedCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, FailedCallback failedCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -74,9 +75,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, MessageCallback messageCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, MessageCallback messageCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -89,9 +91,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, SeenCallback seenCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, SeenCallback seenCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -104,9 +107,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, SubscribedCallback subscribedCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, SubscribedCallback subscribedCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -119,9 +123,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, UnsubscribedCallback unsubscribedCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, UnsubscribedCallback unsubscribedCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -134,9 +139,10 @@ public class BotContext {
         this.webhookCallback = null;
     }
 
-    private BotContext(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, WebhookCallback webhookCallback) {
+    private BotContext(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, WebhookCallback webhookCallback) {
         this.viberService = viberService;
         this.userService = userService;
+        this.botMessageService = botMessageService;
         this.messageService = messageService;
         this.KeyboardService = keyboardService;
         this.conversationStartedCallback = null;
@@ -149,35 +155,35 @@ public class BotContext {
         this.webhookCallback = webhookCallback;
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, ConversationStartedCallback conversationStartedCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, conversationStartedCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, ConversationStartedCallback conversationStartedCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, conversationStartedCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, DeliveredCallback deliveredCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, deliveredCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, DeliveredCallback deliveredCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, deliveredCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, FailedCallback failedCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, failedCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, FailedCallback failedCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, failedCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, MessageCallback messageCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, messageCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, MessageCallback messageCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, messageCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, SeenCallback seenCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, seenCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, SeenCallback seenCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, seenCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, SubscribedCallback subscribedCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, subscribedCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, SubscribedCallback subscribedCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, subscribedCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, UnsubscribedCallback unsubscribedCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, unsubscribedCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, UnsubscribedCallback unsubscribedCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, unsubscribedCallback);
     }
 
-    public static BotContext of(ViberService viberService, UserService userService, MessageService messageService, KeyboardService keyboardService, WebhookCallback webhookCallback) {
-        return new BotContext(viberService, userService, messageService, keyboardService, webhookCallback);
+    public static BotContext of(ViberService viberService, UserService userService, BotMessageService botMessageService, MessageService messageService, KeyboardService keyboardService, WebhookCallback webhookCallback) {
+        return new BotContext(viberService, userService, botMessageService, messageService, keyboardService, webhookCallback);
     }
 }

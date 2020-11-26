@@ -1,13 +1,13 @@
 package by.testbot.bot;
 
+import by.testbot.models.Button;
+import by.testbot.models.Keyboard;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import by.testbot.models.Button;
-import by.testbot.models.Keyboard;
-import by.testbot.models.enums.button.ActionType;
-
 public class KeyboardSource {
+
     public static Keyboard getAdminMainMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
@@ -87,10 +87,85 @@ public class KeyboardSource {
         return keyboard;
     }
 
+    public static Keyboard getEditTextMessageMenuKeyboard() {
+        Keyboard keyboard = new Keyboard();
+        List<Button> buttons = new ArrayList<>();
+
+        Button cancelToMainMenu = new Button();
+        cancelToMainMenu.setText("Главное меню");
+        cancelToMainMenu.setActionBody("cancelToMainMenu");
+        cancelToMainMenu.setColumns(6);
+        cancelToMainMenu.setRows(1);
+        buttons.add(cancelToMainMenu);
+
+        Button addNewMessage = new Button();
+        addNewMessage.setText("Добавить");
+        addNewMessage.setActionBody("addNewMessage");
+        addNewMessage.setColumns(6);
+        addNewMessage.setRows(1);
+        buttons.add(addNewMessage);
+
+        Button openMessage = new Button();
+        openMessage.setText("Открыть");
+        openMessage.setActionBody("openMessage");
+        openMessage.setColumns(6);
+        openMessage.setRows(1);
+        buttons.add(openMessage);
+
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
+
+    public static Keyboard getButtonsOpenMessage(int quantity) {
+        Keyboard keyboard = new Keyboard();
+        List<Button> buttons = new ArrayList<>();
+
+        for (int i = 0; i < quantity; i++) {
+            Button cancelToMainMenu = new Button();
+            cancelToMainMenu.setText((i + 1) + "");
+            cancelToMainMenu.setActionBody((i + 1) + "");
+            cancelToMainMenu.setColumns(1);
+            cancelToMainMenu.setRows(1);
+            buttons.add(cancelToMainMenu);
+        }
+
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
+
+    public static Keyboard getMenuKeyboardWithButtonsEditAndDeleteMessage() {
+        Keyboard keyboard = new Keyboard();
+        List<Button> buttons = new ArrayList<>();
+
+        Button cancelToMainMenu = new Button();
+        cancelToMainMenu.setText("Главное меню");
+        cancelToMainMenu.setActionBody("cancelToMainMenu");
+        cancelToMainMenu.setColumns(6);
+        cancelToMainMenu.setRows(1);
+        buttons.add(cancelToMainMenu);
+
+        Button editMessage = new Button();
+        editMessage.setText("Изменить");
+        editMessage.setActionBody("editMessage");
+        editMessage.setColumns(3);
+        editMessage.setRows(1);
+        buttons.add(editMessage);
+
+        Button deleteMessage = new Button();
+        deleteMessage.setText("Удалить");
+        deleteMessage.setActionBody("deleteMessage");
+        deleteMessage.setColumns(3);
+        deleteMessage.setRows(1);
+        buttons.add(deleteMessage);
+
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
+
     public static Keyboard getListOfClientsMenuKeyboard() {
         Keyboard keyboard = new Keyboard();
         List<Button> buttons = new ArrayList<>();
-        
+
         Button getListOfClientsAndOtherInformationButton = new Button();
         getListOfClientsAndOtherInformationButton.setText("Получить список клиентов и информацию о них");
         getListOfClientsAndOtherInformationButton.setActionBody("Получить список клиентов и ифнормацию о них");

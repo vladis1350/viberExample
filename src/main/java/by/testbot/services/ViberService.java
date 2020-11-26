@@ -40,6 +40,9 @@ public class ViberService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BotMessageService botMessageService;
+
     public void setWeebhook() {
         if (authenticationToken == null || authenticationToken.isEmpty() || authenticationToken.isBlank()) {
             logger.error("Authentication token has invalid type.");
@@ -292,13 +295,13 @@ public class ViberService {
 
             userService.save(user);
 
-            botContext = BotContext.of(this, this.userService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+            botContext = BotContext.of(this, this.userService, this.botMessageService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
             botState.enter(botContext);
 
             logger.info("New user registered: " + viberId);
         } else {
             botState = user.getBotState();
-            botContext = BotContext.of(this, this.userService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+            botContext = BotContext.of(this, this.userService, this.botMessageService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
         }
 
         botState.handleInput(botContext);

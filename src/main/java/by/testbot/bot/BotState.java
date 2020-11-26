@@ -1,5 +1,6 @@
 package by.testbot.bot;
 
+import by.testbot.models.BotMessage;
 import by.testbot.models.Sender;
 import by.testbot.models.User;
 import by.testbot.models.enums.Roles;
@@ -7,6 +8,7 @@ import by.testbot.payload.requests.message.SendPictureMessageRequest;
 import by.testbot.payload.requests.message.SendTextMessageRequest;
 import by.testbot.regex.RegexHandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public enum BotState {
@@ -111,15 +113,45 @@ public enum BotState {
         }
     },
 
-    EMPTY(true) {
+    ADD_NEW_MESSAGE(true) {
         @Override
         public void enter(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
 
+            String list = "Ведите сообщение: \n";
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getEditTextMessageMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override
         public void handleInput(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            Sender sender = new Sender();
+            sender.setName("AutoCapitalBot");
 
+            LocalDateTime currentTime = LocalDateTime.now();
+            String userAnswer = botContext.getMessageCallback().getMessage().getText();
+            BotMessage botMessage = BotMessage.builder()
+                    .messageText(userAnswer)
+                    .timeStamp(currentTime)
+                    .build();
+            botContext.getBotMessageService().save(botMessage);
+
+            String list = "Сообщение добавленно!\n";
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getEditTextMessageMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override
@@ -129,19 +161,47 @@ public enum BotState {
     },
 
     EDIT_TEXT_MESSAGE(true) {
+        BotState botState;
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
         @Override
         public void enter(BotContext botContext) {
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            String list = "Список сообщений: \n\n";
+            list = list.concat(botContext.getBotMessageService().getStartAllMessagesToString());
+            sender.setName("AutoCapitalBot");
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getEditTextMessageMenuKeyboard());
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
 
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override
         public void handleInput(BotContext botContext) {
+            String text = botContext.getMessageCallback().getMessage().getText();
 
+            switch (text) {
+                case "addNewMessage":
+                    botState = ADD_NEW_MESSAGE;
+                    break;
+                case "openMessage":
+                    botState = OPEN_MESSAGE;
+                    break;
+                case "cancelToMainMenu":
+                    botState = MAIN_MENU;
+                    break;
+                default:
+                    botState = EDIT_TEXT_MESSAGE;
+                    break;
+            }
         }
 
         @Override
         public BotState nextState() {
-            return MAIN_MENU;
+            return botState;
         }
     },
 
@@ -173,6 +233,52 @@ public enum BotState {
                 default:
                     botState = MANAGERS;
                     break;
+            }
+        }
+
+        @Override
+        public BotState nextState() {
+            return botState;
+        }
+    },
+
+    OPEN_MESSAGE(true) {
+        BotState botState;
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        @Override
+        public void enter(BotContext botContext) {
+            List<BotMessage> botMessages = botContext.getBotMessageService().getAllMessages();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
+            if (!botMessages.isEmpty()) {
+                sendTextMessageRequest.setKeyboard(KeyboardSource.getButtonsOpenMessage(botMessages.size()));
+                sendTextMessageRequest.setText("Выберите или введите номер сообщения которое хотите открыть");
+            } else {
+                sendTextMessageRequest.setText("Сообщений нет");
+            }
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+        }
+
+
+        @Override
+        public void handleInput(BotContext botContext) {
+            String userAnswer = botContext.getMessageCallback().getMessage().getText();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            if (RegexHandler.checkUserAnswerOnDigit(userAnswer)) {
+                int numberMessage = Integer.parseInt(userAnswer);
+                List<BotMessage> botMessages = botContext.getBotMessageService().getAllMessages();
+                if (numberMessage <= botMessages.size()) {
+                    sender.setName("AutoCapitalBot");
+                    sendTextMessageRequest.setKeyboard(KeyboardSource.getMenuKeyboardWithButtonsEditAndDeleteMessage());
+                    sendTextMessageRequest.setText(botMessages.get(numberMessage).getMessageText());
+                    sendTextMessageRequest.setSender(sender);
+                    sendTextMessageRequest.setUserId(viberId);
+                    botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+                }
             }
         }
 
@@ -231,11 +337,11 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
             String name = botContext.getMessageCallback().getMessage().getContact().getName();
             String viberId = botContext.getMessageCallback().getSender().getId();
             List<User> users = botContext.getUserService().getUserByName(name);
-            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
-            Sender sender = new Sender();
             sender.setName("AutoCapitalBot");
             if (!users.isEmpty() && users.size() > 1) {
                 SendPictureMessageRequest sendPictureMessageRequest = new SendPictureMessageRequest();
@@ -303,7 +409,7 @@ public enum BotState {
             String viberId = botContext.getMessageCallback().getSender().getId();
             if (RegexHandler.checkUserAnswerOnDigit(userAnswer)) {
                 int managerNumber = Integer.parseInt(userAnswer);
-                if(botContext.getUserService().editRoleOnUser(managerNumber) != null) {
+                if (botContext.getUserService().editRoleOnUser(managerNumber) != null) {
                     String message = "Роль менеджера с " + botContext.getUserService().editRoleOnUser(managerNumber).getName() + " снята!";
                     sendTextMessageRequest.setText(message);
                     sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
