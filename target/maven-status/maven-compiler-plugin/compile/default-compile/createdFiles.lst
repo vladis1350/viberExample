@@ -10,6 +10,7 @@ by\testbot\models\enums\button\ImageScaleType.class
 by\testbot\bot\BotState$5.class
 by\testbot\models\Sender.class
 by\testbot\services\MessageService.class
+by\testbot\bot\BotState$14.class
 by\testbot\services\InitializationService.class
 by\testbot\models\enums\button\BackgroundMediaScaleType.class
 by\testbot\bot\BotContext.class
@@ -21,6 +22,7 @@ by\testbot\models\User.class
 by\testbot\services\WebhookService.class
 by\testbot\config\FeignConfiguration.class
 by\testbot\services\ViberService.class
+by\testbot\bot\BotState$13.class
 by\testbot\payload\requests\message\SendLocationMessageRequest.class
 by\testbot\controllers\WebhookController.class
 by\testbot\bot\BotState$1.class
@@ -43,6 +45,7 @@ by\testbot\payload\callbacks\SeenCallback.class
 by\testbot\proxy\ViberProxy.class
 by\testbot\utils\Utils.class
 by\testbot\payload\callbacks\WebhookCallback.class
+by\testbot\bot\BotState$12.class
 by\testbot\bot\BotState.class
 by\testbot\payload\requests\message\SendContactMessageRequest.class
 by\testbot\models\enums\button\BackgroundMediaType.class
@@ -69,4 +72,5 @@ by\testbot\bot\BotState$3.class
 by\testbot\models\BotMessage$BotMessageBuilder.class
 by\testbot\regex\RegexHandler.class
 by\testbot\TestbotApplication.class
+by\testbot\bot\BotState$15.class
 by\testbot\payload\requests\message\SendTextMessageRequest.class

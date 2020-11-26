@@ -7,6 +7,7 @@ import by.testbot.models.enums.Roles;
 import by.testbot.payload.requests.message.SendPictureMessageRequest;
 import by.testbot.payload.requests.message.SendTextMessageRequest;
 import by.testbot.regex.RegexHandler;
+import by.testbot.services.BotMessageService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -96,6 +97,23 @@ public enum BotState {
         }
     },
 
+    EMPTY(true) {
+        @Override
+        public void enter(BotContext botContext) {
+
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+
+        }
+
+        @Override
+        public BotState nextState() {
+            return MAIN_MENU;
+        }
+    },
+
     AUTO_POSTING(true) {
         @Override
         public void enter(BotContext botContext) {
@@ -156,7 +174,99 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return AUTO_POSTING;
+            return EMPTY;
+        }
+    },
+
+    DELETE_MESSAGE(true) {
+
+        @Override
+        public void enter(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
+
+            String list = "Сообщение удалено";
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getEditTextMessageMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+            botContext.getBotMessageService().deleteMessage(BotMessageService.botMessageId);
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+
+        }
+
+        @Override
+        public BotState nextState() {
+            return EDIT_TEXT_MESSAGE;
+        }
+    },
+
+    VIEW_MESSAGE(true) {
+        BotState botState;
+
+        @Override
+        public void enter(BotContext botContext) {
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+            String text = botContext.getMessageCallback().getMessage().getText();
+
+            switch (text) {
+                case "editMessage":
+                    botState = EDIT_MESSAGE;
+                    break;
+                case "deleteMessage":
+                    botState = DELETE_MESSAGE;
+                    break;
+                case "cancelToMainMenu":
+                    botState = MAIN_MENU;
+                    break;
+                default:
+                    botState = EDIT_TEXT_MESSAGE;
+                    break;
+            }
+        }
+
+        @Override
+        public BotState nextState() {
+            return botState;
+        }
+    },
+
+    EDIT_MESSAGE(true) {
+        BotState botState;
+
+        @Override
+        public void enter(BotContext botContext) {
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+            String viberId = botContext.getMessageCallback().getSender().getId();
+            sender.setName("AutoCapitalBot");
+
+            String list = "В разработке";
+            sendTextMessageRequest.setText(list);
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getEditTextMessageMenuKeyboard());
+            sendTextMessageRequest.setSender(sender);
+            sendTextMessageRequest.setUserId(viberId);
+
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
+        }
+
+        @Override
+        public void handleInput(BotContext botContext) {
+
+        }
+
+        @Override
+        public BotState nextState() {
+            return EMPTY;
         }
     },
 
@@ -275,6 +385,7 @@ public enum BotState {
                     sender.setName("AutoCapitalBot");
                     sendTextMessageRequest.setKeyboard(KeyboardSource.getMenuKeyboardWithButtonsEditAndDeleteMessage());
                     sendTextMessageRequest.setText(botMessages.get(numberMessage - 1).getMessageText());
+                    BotMessageService.botMessageId = botMessages.get(numberMessage - 1).getId();
                     sendTextMessageRequest.setSender(sender);
                     sendTextMessageRequest.setUserId(viberId);
                     botContext.getViberService().sendTextMessage(sendTextMessageRequest);
@@ -284,7 +395,7 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return botState;
+            return VIEW_MESSAGE;
         }
     },
 
