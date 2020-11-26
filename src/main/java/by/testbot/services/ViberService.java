@@ -261,8 +261,8 @@ public class ViberService {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             // handle callback
 
-            BotState botState = BotState.CONVERSATION_STARTED;
-            BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getConversationStartedCallback());
+            BotState botState = BotState.MAIN_MENU;
+            BotContext botContext = BotContext.of(this, this.userService, this.messageService, this.keyboardService, viberUpdate.getConversationStartedCallback());
 
             botState.enter(botContext);
             userService.save(viberUpdate.getSubscribedCallback().getUser());
@@ -271,47 +271,51 @@ public class ViberService {
             // handle callback
         } else if (viberUpdate.hasMessageCallback()) {
             logger.info("Received MessageCallback from user: " + viberUpdate.getMessageCallback().getSender().getId() + ", message type: " + viberUpdate.getMessageCallback().getMessage().getMessageType());
-            logger.info("" + viberUpdate.getMessageCallback().getMessage().getContact().getPhoneNumber());
 
-            if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("managerList")) {
-                keyboardService.sendListOfManagersMenuKeyboard(viberUpdate.getMessageCallback().getSender().getId());
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("autopost")) {
+            handleMessageCallback(viberUpdate);
 
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("editTextMessage")) {
-
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("botRequest")) {
-
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("cancelToMainMenu")) {
-                keyboardService.sendAdminMainMenuKeyboard(viberUpdate.getMessageCallback().getSender());
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("getListManagers")) {
-                messageService.sendListOfManagersMessage(viberUpdate.getMessageCallback().getSender().getId());
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("addManager")) {
-                User user = userService.getByViberId(viberUpdate.getMessageCallback().getSender().getId());
-                if (user != null) {
-                    if (user.getBotState() != BotState.ADDING_MANAGER) {
-                        BotState botState = BotState.ADDING_MANAGER;
-                        BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
-                        botState.enter(botContext);
-
-                        user.setBotState(botState);
-
-                        userService.save(user);
-                    } else {
-                        BotContext botContext = BotContext.of(this, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
-
-                        user.getBotState().handleInput(botContext);
-                        BotState nextState = user.getBotState().nextState();
-                        user.setBotState(nextState);
-
-                        userService.save(user);
-                    }
-                }
-
-            } else if (viberUpdate.getMessageCallback().getMessage().getText().startsWith("deleteManager")) {
-                messageService.askManagerNumberForPrivilegeUser(viberUpdate.getMessageCallback().getSender().getId());
-            }
         }
     }
 
+    private void handleMessageCallback(ViberUpdate viberUpdate) {
+        final String viberId = viberUpdate.getMessageCallback().getSender().getId();
+        BotContext botContext = null;
+        BotState botState = null;
+
+        User user = userService.getByViberId(viberId);
+
+        if (user == null) {
+            botState = BotState.getInitialState();
+
+            user = new User();
+
+            user.setViberId(viberId);
+            user.setBotState(botState);
+            user.setCountry(viberUpdate.getMessageCallback().getSender().getCountry());
+            user.setLanguage(viberUpdate.getMessageCallback().getSender().getLanguage());
+            user.setName(viberUpdate.getMessageCallback().getSender().getName());
+
+            userService.save(user);
+
+            botContext = BotContext.of(this, this.userService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+            botState.enter(botContext);
+
+            logger.info("New user registered: " + viberId);
+        } else {
+            botState = user.getBotState();
+            botContext = BotContext.of(this, this.userService, this.messageService, this.keyboardService, viberUpdate.getMessageCallback());
+        }
+
+        botState.handleInput(botContext);
+
+        do {
+            botState = botState.nextState();
+            botState.enter(botContext);
+        } while (!botState.getIsInputNeeded());
+
+        user.setBotState(botState);
+
+        userService.update(user);
+    }
 
 }

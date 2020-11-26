@@ -26,6 +26,13 @@ public class KeyboardSource {
         listOfManagersButton.setRows(1);
         buttons.add(listOfManagersButton);
 
+        Button privateMessage = new Button();
+        privateMessage.setText("Личное сообщение клиенту");
+        privateMessage.setActionBody("privateMessage");
+        privateMessage.setColumns(3);
+        privateMessage.setRows(1);
+        buttons.add(privateMessage);
+
         Button listOfClientsButton = new Button();
         listOfClientsButton.setText("Список менеджеров");
         listOfClientsButton.setActionBody("managerList");
@@ -75,13 +82,6 @@ public class KeyboardSource {
         deleteManagerButton.setColumns(3);
         deleteManagerButton.setRows(1);
         buttons.add(deleteManagerButton);
-
-//        Button changePrivilegesButton = new Button();
-//        changePrivilegesButton.setText("Изменение привелегий");
-//        changePrivilegesButton.setActionBody("editPrivileges");
-//        changePrivilegesButton.setColumns(3);
-//        changePrivilegesButton.setRows(1);
-//        buttons.add(changePrivilegesButton);
 
         keyboard.setButtons(buttons);
         return keyboard;

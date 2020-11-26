@@ -69,9 +69,7 @@ public class MessageService {
 
         sender.setName("AutoCapitalBot");
 
-        String list = "Пользователи: \n";
-        list = list.concat(userService.getListUsersToString());
-        list = list.concat("\n Введите номер пользователя, которого хотите сделать менеджером: ");
+        String list = "Выберите человека из списка контактов, которого хотите сделать менеджером: ";
 
         sendTextMessageRequest.setText(list);
         sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());

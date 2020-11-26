@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByViberId(String id);
     List<User> findUserByRole(String role);
+    List<User> findUserByName(String name);
 }

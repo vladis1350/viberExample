@@ -23,10 +23,10 @@ public class UserService {
         if (existUser == null) {
             if (!user.getViberId().equals("afWPwJpM+p0fgkl/LxUkrA==")) {
                 user.setRole(Roles.USER.getRole());
-                user.setBotState(BotState.CONVERSATION_STARTED);
+                user.setBotState(BotState.MAIN_MENU);
             } else {
                 user.setRole(Roles.ADMIN.getRole());
-                user.setBotState(BotState.CONVERSATION_STARTED);
+                user.setBotState(BotState.MAIN_MENU);
             }
             userRepository.save(user);
         }
@@ -41,6 +41,11 @@ public class UserService {
     @Transactional
     public void update(User user) {
         userRepository.save(user);
+    }
+
+    @Transactional
+    public List<User> getUserByName(String name) {
+        return userRepository.findUserByName(name);
     }
 
     @Transactional
