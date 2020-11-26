@@ -15,7 +15,16 @@ public enum BotState {
 
         @Override
         public void enter(BotContext botContext) {
-            botContext.getKeyboardService().sendAdminMainMenuKeyboard(botContext.getMessageCallback().getSender());
+            SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+            Sender sender = new Sender();
+
+            sender.setName("AutoCapitalBot");
+
+            sendTextMessageRequest.setText("Привет бот MEGA LIFE");
+            sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
+            sendTextMessageRequest.setUserId(botContext.getMessageCallback().getSender().getId());
+            sendTextMessageRequest.setSender(sender);
+            botContext.getViberService().sendTextMessage(sendTextMessageRequest);
         }
 
         @Override

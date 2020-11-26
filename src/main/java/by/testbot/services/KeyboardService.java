@@ -29,18 +29,9 @@ public class KeyboardService {
     }
 
     public void sendAdminMainMenuKeyboard(Sender user) {
-        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
-        Sender sender = new Sender();
 
-        sender.setName("AutoCapitalBot");
 
-        sendTextMessageRequest.setText("Привет " + user.getName() + "!\n" +
-                "Воспользуйся главным меню");
-        sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
-        sendTextMessageRequest.setUserId(user.getId());
-        sendTextMessageRequest.setSender(sender);
-
-        viberService.sendTextMessage(sendTextMessageRequest);
+//        viberService.sendTextMessage(sendTextMessageRequest);
     }
 
     public void sendListOfManagersMenuKeyboard(String viberId) {
