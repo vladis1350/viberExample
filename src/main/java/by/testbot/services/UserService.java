@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import by.testbot.bot.BotState;
+import by.testbot.bot.admin.AdminBotState;
 import by.testbot.models.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ public class UserService {
         if (existUser == null) {
             if (!user.getViberId().equals("afWPwJpM+p0fgkl/LxUkrA==")) {
                 user.setRole(Roles.USER.getRole());
-                user.setBotState(BotState.MAIN_MENU);
+                user.setAdminBotState(AdminBotState.MAIN_MENU);
             } else {
                 user.setRole(Roles.ADMIN.getRole());
-                user.setBotState(BotState.MAIN_MENU);
+                user.setAdminBotState(AdminBotState.MAIN_MENU);
             }
             userRepository.save(user);
         }

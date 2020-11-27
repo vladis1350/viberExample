@@ -2,7 +2,8 @@ package by.testbot.models;
 
 import javax.persistence.*;
 
-import by.testbot.bot.BotState;
+import by.testbot.bot.admin.AdminBotState;
+import by.testbot.bot.user.UserBotState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,9 +45,13 @@ public class User {
     @Column(name = "role", nullable = false)
     private String role;
 
-    @Column(name = "bot_state", nullable = false)
+    @Column(name = "bot_stateAdmin")
     @Enumerated(EnumType.ORDINAL)
-    private BotState botState;
+    private AdminBotState adminBotState;
+
+    @Column(name = "bot_stateUser")
+    @Enumerated(EnumType.ORDINAL)
+    private UserBotState userBotState;
 
     @JsonProperty("primary_device_os")
     @Transient

@@ -35,6 +35,13 @@ public class BotMessageService {
         }
     }
 
+    public BotMessage getBotMessageById(long botMessageId) {
+        if (botMessageRepository.findById(botMessageId).isPresent()) {
+            return botMessageRepository.findById(botMessageId).get();
+        }
+        return null;
+    }
+
     public String getStartAllMessagesToString() {
         List<BotMessage> botMessages = getAllMessages();
         String list = "";

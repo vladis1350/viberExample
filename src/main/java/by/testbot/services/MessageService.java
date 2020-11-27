@@ -1,7 +1,8 @@
 package by.testbot.services;
 
-import by.testbot.bot.KeyboardSource;
+import by.testbot.bot.admin.AdminKeyboardSource;
 import by.testbot.models.ViberUpdate;
+import by.testbot.services.admin.AdminKeyboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class MessageService {
     @Autowired
     private ViberService viberService;
     @Autowired
-    private KeyboardService keyboardService;
+    private AdminKeyboardService adminKeyboardService;
     @Autowired
     private UserService userService;
 
@@ -38,7 +39,7 @@ public class MessageService {
 
         sendTextMessageRequest.setText("Привет " + viberUpdate.getSubscribedCallback().getUser().getName());
         sendTextMessageRequest.setSender(sender);
-        sendTextMessageRequest.setKeyboard(KeyboardSource.getAdminMainMenuKeyboard());
+        sendTextMessageRequest.setKeyboard(AdminKeyboardSource.getAdminMainMenuKeyboard());
         sendTextMessageRequest.setUserId(viberUpdate.getSubscribedCallback().getUser().getViberId());
 
         viberService.sendTextMessage(sendTextMessageRequest);
@@ -55,7 +56,7 @@ public class MessageService {
         list = list.concat("\nВведите номер менеджера, с которого хотите снять привилегию: ");
 
         sendTextMessageRequest.setText(list);
-        sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+        sendTextMessageRequest.setKeyboard(AdminKeyboardSource.getListOfManagersMenuKeyboard());
 //        sendTextMessageRequest.setTrackingData("addManager");
         sendTextMessageRequest.setSender(sender);
         sendTextMessageRequest.setUserId(viberId);
@@ -72,7 +73,7 @@ public class MessageService {
         String list = "Выберите человека из списка контактов, которого хотите сделать менеджером: ";
 
         sendTextMessageRequest.setText(list);
-        sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+        sendTextMessageRequest.setKeyboard(AdminKeyboardSource.getListOfManagersMenuKeyboard());
 //        sendTextMessageRequest.setTrackingData("addManager");
         sendTextMessageRequest.setSender(sender);
         sendTextMessageRequest.setUserId(viberId);
@@ -113,7 +114,7 @@ public class MessageService {
         sender.setName("AutoCapitalBot");
         String listManagers = userService.getListUsersToString();
         sendTextMessageRequest.setText(listManagers);
-        sendTextMessageRequest.setKeyboard(KeyboardSource.getListOfManagersMenuKeyboard());
+        sendTextMessageRequest.setKeyboard(AdminKeyboardSource.getListOfManagersMenuKeyboard());
         sendTextMessageRequest.setSender(sender);
         sendTextMessageRequest.setUserId(viberId);
 
