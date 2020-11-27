@@ -328,18 +328,10 @@ public class ViberService {
         }
 
         if (adminBotState != null) {
-            do {
-                adminBotState = adminBotState.nextState();
-                adminBotState.enter(adminBotContext);
-            } while (!adminBotState.getIsInputNeeded());
-
+            user.setRole(Roles.ADMIN.getRole());
             user.setAdminBotState(adminBotState);
         } else {
-            do {
-                userBotState = userBotState.nextState();
-                userBotState.enter(userBotContext);
-            } while (!userBotState.getIsInputNeeded());
-
+            user.setRole(Roles.USER.getRole());
             user.setUserBotState(userBotState);
         }
 
