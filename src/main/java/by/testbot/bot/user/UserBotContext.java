@@ -1,11 +1,8 @@
 package by.testbot.bot.user;
 
 import by.testbot.payload.callbacks.*;
-import by.testbot.services.BotMessageService;
 import by.testbot.services.MessageService;
-import by.testbot.services.UserService;
 import by.testbot.services.ViberService;
-import by.testbot.services.admin.AdminKeyboardService;
 import by.testbot.services.user.UserKeyboardService;
 import lombok.Getter;
 

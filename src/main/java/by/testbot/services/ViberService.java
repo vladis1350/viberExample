@@ -271,8 +271,7 @@ public class ViberService {
         } else if (viberUpdate.hasConversationStartedCallback()) {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
 
-            handleMessageCallback(viberUpdate);
-
+            handleConversationStartedCallback(viberUpdate);
         } else if (viberUpdate.hasWebhookCallback()) {
             logger.info("Received WebhookCallback.");
             // handle callback
@@ -284,8 +283,8 @@ public class ViberService {
         }
     }
 
-    private void handleMessageCallback(ViberUpdate viberUpdate) {
-        final String viberId = viberUpdate.getMessageCallback().getSender().getId();
+    private void handleConversationStartedCallback(ViberUpdate viberUpdate) {
+        final String viberId = viberUpdate.getConversationStartedCallback().getUser().getViberId();
         AdminBotContext adminBotContext = null;
         UserBotContext userBotContext = null;
         AdminBotState adminBotState = null;
@@ -300,7 +299,7 @@ public class ViberService {
                 user.setAdminBotState(adminBotState);
                 adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
                 adminBotState.enter(adminBotContext);
-            } else  {
+            } else {
                 userBotState = UserBotState.getInitialState();
                 user.setUserBotState(userBotState);
                 userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
@@ -317,7 +316,7 @@ public class ViberService {
 
             logger.info("New user registered: " + viberId);
         } else {
-            if (user.getRole().equals(Roles.ADMIN.getRole()) || user.getRole().equals(Roles.MANAGER.getRole())) {
+            if (isAdmin(user)) {
                 adminBotState = user.getAdminBotState();
                 adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
                 adminBotState.handleInput(adminBotContext);
@@ -344,8 +343,59 @@ public class ViberService {
             user.setUserBotState(userBotState);
         }
 
+        userService.update(user);
+    }
+
+    private void handleMessageCallback(ViberUpdate viberUpdate) {
+        final String viberId = viberUpdate.getMessageCallback().getSender().getId();
+        AdminBotContext adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
+        UserBotContext userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
+        AdminBotState adminBotState = null;
+        UserBotState userBotState = null;
+
+        User user = userService.getByViberId(viberId);
+
+        if (getBotState(user, viberUpdate) instanceof AdminBotState) {
+            do {
+                adminBotState = (AdminBotState) getBotState(user, viberUpdate);
+                adminBotState = adminBotState.nextState();
+                adminBotState.enter(adminBotContext);
+            } while (!adminBotState.getIsInputNeeded());
+
+            user.setAdminBotState(adminBotState);
+        } else if (getBotState(user, viberUpdate) instanceof UserBotState) {
+            do {
+                userBotState = (UserBotState) getBotState(user, viberUpdate);
+                userBotState = userBotState.nextState();
+                userBotState.enter(userBotContext);
+            } while (!userBotState.getIsInputNeeded());
+
+            user.setUserBotState(userBotState);
+        }
 
         userService.update(user);
+    }
+
+    private Object getBotState(User user, ViberUpdate viberUpdate) {
+        AdminBotContext adminBotContext = null;
+        UserBotContext userBotContext = null;
+        AdminBotState adminBotState = null;
+        UserBotState userBotState = null;
+        if (isAdmin(user)) {
+            adminBotState = user.getAdminBotState();
+            adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
+            adminBotState.handleInput(adminBotContext);
+            return adminBotState;
+        } else {
+            userBotState = user.getUserBotState();
+            userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
+            userBotState.handleInput(userBotContext);
+            return userBotState;
+        }
+    }
+
+    private boolean isAdmin(User user) {
+        return user.getRole().equals(Roles.ADMIN.getRole()) || user.getRole().equals(Roles.MANAGER.getRole());
     }
 
 }
