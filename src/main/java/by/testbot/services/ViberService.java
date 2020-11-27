@@ -325,17 +325,16 @@ public class ViberService {
                 userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
                 userBotState.handleInput(userBotContext);
             }
-        }
 
-        if (adminBotState != null) {
-            user.setRole(Roles.ADMIN.getRole());
-            user.setAdminBotState(adminBotState);
-        } else {
-            user.setRole(Roles.USER.getRole());
-            user.setUserBotState(userBotState);
+            if (adminBotState != null) {
+                adminBotState = adminBotState.nextState();
+                user.setAdminBotState(adminBotState);
+            } else {
+                userBotState = userBotState.nextState();
+                user.setUserBotState(userBotState);
+            }
+            userService.update(user);
         }
-
-        userService.update(user);
     }
 
     private void handleMessageCallback(ViberUpdate viberUpdate) {

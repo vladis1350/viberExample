@@ -27,8 +27,20 @@ public class UserKeyboardService {
         sendTextMessageRequest.setSender(sender);
 
         viberService.sendTextMessage(sendTextMessageRequest);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
+        sendLetsGetAcquainted(viberId);
+    }
+
+    public void sendLetsGetAcquainted(String viberId) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+
+        sender.setName("AutoCapitalBot");
+
         sendTextMessageRequest.setText("Давайте знакомиться, как вас зовут? ");
+        sendTextMessageRequest.setUserId(viberId);
+        sendTextMessageRequest.setSender(sender);
+
         viberService.sendTextMessage(sendTextMessageRequest);
     }
 
