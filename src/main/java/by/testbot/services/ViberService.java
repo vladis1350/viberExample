@@ -307,10 +307,10 @@ public class ViberService {
             }
 
             user.setViberId(viberId);
-            user.setAvatar(viberUpdate.getMessageCallback().getSender().getAvatarUrl());
-            user.setCountry(viberUpdate.getMessageCallback().getSender().getCountry());
-            user.setLanguage(viberUpdate.getMessageCallback().getSender().getLanguage());
-            user.setName(viberUpdate.getMessageCallback().getSender().getName());
+            user.setAvatar(viberUpdate.getConversationStartedCallback().getUser().getAvatar());
+            user.setCountry(viberUpdate.getConversationStartedCallback().getUser().getCountry());
+            user.setLanguage(viberUpdate.getConversationStartedCallback().getUser().getLanguage());
+            user.setName(viberUpdate.getConversationStartedCallback().getUser().getName());
 
             userService.save(user);
 
