@@ -6,7 +6,10 @@ public enum UserBotState {
         @Override
         public void enter(UserBotContext userBotContext) {
             userBotContext.getUserKeyboardService()
-                    .sendStartUserMessage(userBotContext.getConversationStartedCallback().getUser().getViberId());
+                    .sendStartUserMessage(userBotContext
+                            .getConversationStartedCallback()
+                            .getUser()
+                            .getViberId());
         }
 
         @Override

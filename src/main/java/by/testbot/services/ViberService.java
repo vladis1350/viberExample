@@ -297,12 +297,12 @@ public class ViberService {
             if (viberId.equals("afWPwJpM+p0fgkl/LxUkrA==")) {
                 adminBotState = AdminBotState.getInitialState();
                 user.setAdminBotState(adminBotState);
-                adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
+                adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getConversationStartedCallback());
                 adminBotState.enter(adminBotContext);
             } else {
                 userBotState = UserBotState.getInitialState();
                 user.setUserBotState(userBotState);
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
+                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getConversationStartedCallback());
                 userBotState.enter(userBotContext);
             }
 
