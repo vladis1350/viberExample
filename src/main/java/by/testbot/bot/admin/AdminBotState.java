@@ -14,6 +14,44 @@ import java.util.List;
 
 public enum AdminBotState {
 
+    CONVERSATION_STARTED(true) {
+
+        @Override
+        public void enter(AdminBotContext adminBotContext) {
+            adminBotContext.getAdminKeyboardService().sendAdminMainMenuKeyboard(adminBotContext
+                    .getConversationStartedCallback().getUser().getViberId());
+        }
+
+        @Override
+        public void handleInput(AdminBotContext adminBotContext) {
+
+        }
+
+        @Override
+        public AdminBotState nextState() {
+            return MAIN_MENU;
+        }
+    },
+
+    SUBSCRIBED(true) {
+
+        @Override
+        public void enter(AdminBotContext adminBotContext) {
+            adminBotContext.getAdminKeyboardService().sendAdminMainMenuKeyboard(adminBotContext
+                    .getSubscribedCallback().getUser().getViberId());
+        }
+
+        @Override
+        public void handleInput(AdminBotContext adminBotContext) {
+
+        }
+
+        @Override
+        public AdminBotState nextState() {
+            return MAIN_MENU;
+        }
+    },
+
     MAIN_MENU(true) {
         AdminBotState adminBotState;
 
@@ -101,7 +139,7 @@ public enum AdminBotState {
 
         @Override
         public AdminBotState nextState() {
-            return MAIN_MENU;
+            return EMPTY;
         }
     },
 
@@ -461,7 +499,7 @@ public enum AdminBotState {
     }
 
     public static AdminBotState getInitialState() {
-        return MAIN_MENU;
+        return CONVERSATION_STARTED;
     }
 
     public Boolean getIsInputNeeded() {

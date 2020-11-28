@@ -27,7 +27,6 @@ public class UserKeyboardService {
         sendTextMessageRequest.setSender(sender);
 
         viberService.sendTextMessage(sendTextMessageRequest);
-        Thread.sleep(2000);
         sendLetsGetAcquainted(viberId);
     }
 

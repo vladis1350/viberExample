@@ -11,7 +11,7 @@ public class Utils {
 
         //eventTypes.add(EventType.DELIVERED);
         //eventTypes.add(EventType.SEEN);
-        eventTypes.add(EventType.FAILED);
+//        eventTypes.add(EventType.FAILED);
         eventTypes.add(EventType.SUBSCRIBED);
         eventTypes.add(EventType.UNSUBSCRIBED);
         eventTypes.add(EventType.CONVERSATION_STARTED);

@@ -38,6 +38,11 @@ public class UserService {
     }
 
     @Transactional
+    public void deleteUserById(String viberId) {
+        userRepository.deleteUserByViberId(viberId);
+    }
+
+    @Transactional
     public User editRoleOnUser(int managerNumber) {
         List<User> managers = getAllUsersWithRoleManager();
         if (managerNumber > managers.size() || managerNumber <= 0) {

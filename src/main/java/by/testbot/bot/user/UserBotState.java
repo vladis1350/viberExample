@@ -1,15 +1,60 @@
 package by.testbot.bot.user;
 
+import lombok.SneakyThrows;
+
 public enum UserBotState {
 
     CONVERSATION_STARTED(true) {
+        @SneakyThrows
         @Override
         public void enter(UserBotContext userBotContext) {
+            String viberId = userBotContext
+                    .getConversationStartedCallback()
+                    .getUser()
+                    .getViberId();
             userBotContext.getUserKeyboardService()
-                    .sendStartUserMessage(userBotContext
-                            .getConversationStartedCallback()
-                            .getUser()
-                            .getViberId());
+                    .sendStartUserMessage(viberId);
+        }
+
+        @Override
+        public void handleInput(UserBotContext userBotContext) {
+
+        }
+
+        @Override
+        public UserBotState nextState() {
+            return ASK_NAME;
+        }
+    },
+
+    SUBSCRIBED(true) {
+        @SneakyThrows
+        @Override
+        public void enter(UserBotContext userBotContext) {
+            String viberId = userBotContext
+                    .getSubscribedCallback()
+                    .getUser()
+                    .getViberId();
+            userBotContext.getUserKeyboardService()
+                    .sendStartUserMessage(viberId);
+        }
+
+        @Override
+        public void handleInput(UserBotContext userBotContext) {
+
+        }
+
+        @Override
+        public UserBotState nextState() {
+            return ASK_NAME;
+        }
+    },
+
+    ASK_NAME(true) {
+        @SneakyThrows
+        @Override
+        public void enter(UserBotContext userBotContext) {
+
         }
 
         @Override
@@ -80,6 +125,7 @@ public enum UserBotState {
         public void enter(UserBotContext userBotContext) {
 
         }
+
         @Override
         public void handleInput(UserBotContext userBotContext) {
         }
