@@ -49,6 +49,9 @@ public class ViberService {
     private UserService userService;
 
     @Autowired
+    private TrialLessonService trialLessonService;
+
+    @Autowired
     private BotMessageService botMessageService;
 
     public void setWeebhook() {
@@ -267,6 +270,7 @@ public class ViberService {
         } else if (viberUpdate.hasUnsubscribedCallback()) {
             logger.info("Received UnsubscribedCallback from user: " + viberUpdate.getUnsubscribedCallback().getUserId());
             userService.deleteUserById(viberUpdate.getUnsubscribedCallback().getUserId());
+            trialLessonService.deleteUserById(viberUpdate.getUnsubscribedCallback().getUserId());
         } else if (viberUpdate.hasConversationStartedCallback()) {
             logger.info("Received ConversationStartedCallback from user: " + viberUpdate.getConversationStartedCallback().getUser().getViberId());
             handleConversationStartedCallback(viberUpdate);
@@ -299,7 +303,7 @@ public class ViberService {
             } else {
                 userBotState = UserBotState.SUBSCRIBED;
                 user.setUserBotState(userBotState);
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getSubscribedCallback());
+                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
                 userBotState.enter(userBotContext);
             }
 
@@ -319,19 +323,10 @@ public class ViberService {
                 adminBotState.handleInput(adminBotContext);
             } else {
                 userBotState = user.getUserBotState();
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getSubscribedCallback());
+                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
                 userBotState.handleInput(userBotContext);
             }
         }
-
-        if (adminBotState != null) {
-            adminBotState = adminBotState.nextState();
-            user.setAdminBotState(adminBotState);
-        } else {
-            userBotState = userBotState.nextState();
-            user.setUserBotState(userBotState);
-        }
-        userService.update(user);
     }
 
     private void handleConversationStartedCallback(ViberUpdate viberUpdate) {
@@ -353,7 +348,7 @@ public class ViberService {
             } else {
                 userBotState = UserBotState.CONVERSATION_STARTED;
                 user.setUserBotState(userBotState);
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getConversationStartedCallback());
+                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
                 userBotState.enter(userBotContext);
             }
 
@@ -373,25 +368,25 @@ public class ViberService {
                 adminBotState.handleInput(adminBotContext);
             } else {
                 userBotState = user.getUserBotState();
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getConversationStartedCallback());
+                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
                 userBotState.handleInput(userBotContext);
             }
         }
 
-        if (adminBotState != null) {
-            adminBotState = adminBotState.nextState();
-            user.setAdminBotState(adminBotState);
-        } else {
-            userBotState = userBotState.nextState();
-            user.setUserBotState(userBotState);
-        }
-        userService.update(user);
+//        if (adminBotState != null) {
+//            adminBotState = adminBotState.nextState();
+//            user.setAdminBotState(adminBotState);
+//        } else {
+//            userBotState = userBotState.nextState();
+//            user.setUserBotState(userBotState);
+//        }
+//        userService.update(user);
     }
 
     private void handleMessageCallback(ViberUpdate viberUpdate) {
         final String viberId = viberUpdate.getMessageCallback().getSender().getId();
         AdminBotContext adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
-        UserBotContext userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
+        UserBotContext userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
         AdminBotState adminBotState = null;
         UserBotState userBotState = null;
 
@@ -430,7 +425,7 @@ public class ViberService {
             return adminBotState;
         } else {
             userBotState = user.getUserBotState();
-            userBotContext = UserBotContext.of(this, this.userKeyboardService, this.messageService, viberUpdate.getMessageCallback());
+            userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
             userBotState.handleInput(userBotContext);
             return userBotState;
         }

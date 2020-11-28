@@ -71,4 +71,26 @@ public class UserKeyboardSource {
         keyboard.setButtons(buttons);
         return keyboard;
     }
+
+    public static Keyboard getTypeLessonMainMenuKeyboard() {
+        Keyboard keyboard = new Keyboard();
+        List<Button> buttons = new ArrayList<>();
+
+        Button trailLesson = new Button();
+        trailLesson.setText("Онлайн");
+        trailLesson.setActionBody("online");
+        trailLesson.setColumns(3);
+        trailLesson.setRows(1);
+        buttons.add(trailLesson);
+
+        Button buyBook = new Button();
+        buyBook.setText("Офлайн");
+        buyBook.setActionBody("offline");
+        buyBook.setColumns(3);
+        buyBook.setRows(1);
+        buttons.add(buyBook);
+
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
 }
