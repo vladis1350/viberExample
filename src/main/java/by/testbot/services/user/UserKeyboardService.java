@@ -1,5 +1,8 @@
 package by.testbot.services.user;
 
+import by.testbot.alphaCRM.models.Lesson;
+import by.testbot.alphaCRM.models.Teacher;
+import by.testbot.alphaCRM.service.CrmService;
 import by.testbot.bot.user.UserKeyboardSource;
 import by.testbot.models.Sender;
 import by.testbot.models.TrialLesson;
@@ -10,11 +13,19 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserKeyboardService {
 
     @Autowired
     private ViberService viberService;
+
+    @Autowired
+    private CrmService crmService;
+
+    @Autowired
+    private UserKeyboardSource userKeyboardSource;
 
     @Autowired
     private TrialLessonService trialLessonService;
@@ -49,12 +60,13 @@ public class UserKeyboardService {
                     "Имя ребенка: " + trialLesson.getChildName() + "\n" +
                     "Возраст ребенка: " + trialLesson.getChildAge() + "\n" +
                     "Номер телефона: " + trialLesson.getPhoneNumber() + "\n" +
-                    "Вариант занятий: " + trialLesson.getTypeLesson());
+                    "Вариант занятий: " + trialLesson.getTypeLesson() + "\n" +
+                    "Дата: " + trialLesson.getDateTime());
             viberService.sendTextMessage(sendTextMessageRequest);
         } else {
             sendTextMessageRequest.setText("Чтобы записать на пробное занятие, укажите пожалуйста Ваши контактные данные.");
             viberService.sendTextMessage(sendTextMessageRequest);
-            Thread.sleep(1500);
+            Thread.sleep(1000);
             sendTextMessageRequest.setText("Укажите пожалуйста имя ребенка: ");
             viberService.sendTextMessage(sendTextMessageRequest);
         }
@@ -142,9 +154,20 @@ public class UserKeyboardService {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
         Sender sender = new Sender();
         sender.setName("AutoCapitalBot");
+        sendTextMessageRequest.setText("Выберите удобную вам дату и время");
 
-        sendTextMessageRequest.setText("Тут будет выбор даты из crm");
-        sendTextMessageRequest.setKeyboard(UserKeyboardSource.getUserMainMenuKeyboard());
+        sendTextMessageRequest.setKeyboard(userKeyboardSource.getDateSelectionButtons());
+        sendTextMessageRequest.setUserId(viberId);
+        sendTextMessageRequest.setSender(sender);
+
+        viberService.sendTextMessage(sendTextMessageRequest);
+    }
+
+    public void sendLinkToPayLessonMessage(String viberId) {
+        SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        Sender sender = new Sender();
+        sender.setName("AutoCapitalBot");
+        sendTextMessageRequest.setText("Ссылка на оплату пробного занятия: https://platy-bablo.by");
         sendTextMessageRequest.setUserId(viberId);
         sendTextMessageRequest.setSender(sender);
 
@@ -205,10 +228,21 @@ public class UserKeyboardService {
 
     public void sendInformationTeachersMessage(String viberId) {
         SendTextMessageRequest sendTextMessageRequest = new SendTextMessageRequest();
+        List<Teacher> teacherList = crmService.getListTeacher();
         Sender sender = new Sender();
         sender.setName("AutoCapitalBot");
 
         sendTextMessageRequest.setText("Информация по проподавателям");
+        String teachersString = "";
+        if (teacherList != null) {
+            for (int i = 0; i < teacherList.size(); i++) {
+                teachersString = teachersString.concat((i + 1) + ". " + teacherList.get(i).getName() + "\n");
+                teachersString = teachersString.concat("Деятельность: " + teacherList.get(i).getNote() + "\n");
+            }
+        } else {
+            teachersString = "Список пуст";
+        }
+        sendTextMessageRequest.setText(teachersString);
         sendTextMessageRequest.setKeyboard(UserKeyboardSource.getUserMainMenuKeyboard());
         sendTextMessageRequest.setUserId(viberId);
         sendTextMessageRequest.setSender(sender);

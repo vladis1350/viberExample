@@ -33,4 +33,7 @@ public class TrialLesson {
     @Column(name = "type_lessons")
     private String typeLesson;
 
+    @Column(name = "dateTime")
+    private String dateTime;
+
 }

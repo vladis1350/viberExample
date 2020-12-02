@@ -1,12 +1,47 @@
 package by.testbot.bot.user;
 
+import by.testbot.alphaCRM.models.Lesson;
+import by.testbot.alphaCRM.payload.responses.LessonIndexResponse;
+import by.testbot.alphaCRM.service.CrmService;
 import by.testbot.models.Button;
 import by.testbot.models.Keyboard;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserKeyboardSource {
+
+    @Autowired
+    private CrmService crmService;
+
+    public Keyboard getDateSelectionButtons() {
+        Keyboard keyboard = new Keyboard();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        List<Lesson> groupLessons = crmService.getGroupLessons();
+        List<Button> buttons = new ArrayList<>();
+        if (groupLessons != null) {
+            for (Lesson lesson : groupLessons) {
+                int number = crmService.getListParticipantGroup(lesson.getGroup_ids().get(0));
+                if (number != -1 && number < 8) {
+                    String[] strings1 = lesson.getTime_from().split(" ");
+                    String[] strings2 = lesson.getTime_to().split(" ");
+                    String buttonText = formatter.format(lesson.getDate()) + "\n" + strings1[1].substring(0, 5) + " - " + strings2[1].substring(0, 5);
+                    Button selectionButton = new Button();
+                    selectionButton.setText(buttonText);
+                    selectionButton.setActionBody(buttonText);
+                    selectionButton.setColumns(2);
+                    selectionButton.setRows(1);
+                    buttons.add(selectionButton);
+                }
+            }
+        }
+        keyboard.setButtons(buttons);
+        return keyboard;
+    }
 
     public static Keyboard getUserMainMenuKeyboard() {
         Keyboard keyboard = new Keyboard();

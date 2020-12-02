@@ -412,6 +412,47 @@ public enum UserBotState {
 
         @Override
         public void handleInput(UserBotContext userBotContext) {
+            String userAnswer = userBotContext.getMessageCallback().getMessage().getText();
+            String viberId = userBotContext.getMessageCallback().getSender().getId();
+            TrialLesson trialLesson = userBotContext.getTrialLessonService().findTrialLessonById(viberId);
+            if (trialLesson != null) {
+                trialLesson.setDateTime(userAnswer);
+                userBotContext.getTrialLessonService().save(trialLesson);
+            }
+        }
+
+        @Override
+        public UserBotState nextState() {
+            return LINK_TO_PAY_LESSON;
+        }
+    },
+
+    EMPTY(true) {
+        @Override
+        public void enter(UserBotContext userBotContext) {
+
+        }
+
+        @Override
+        public void handleInput(UserBotContext userBotContext) {
+
+        }
+
+        @Override
+        public UserBotState nextState() {
+            return EMPTY;
+        }
+    },
+
+    LINK_TO_PAY_LESSON(true) {
+        @Override
+        public void enter(UserBotContext userBotContext) {
+            String viberId = userBotContext.getMessageCallback().getSender().getId();
+            userBotContext.getUserKeyboardService().sendLinkToPayLessonMessage(viberId);
+        }
+
+        @Override
+        public void handleInput(UserBotContext userBotContext) {
 
         }
 

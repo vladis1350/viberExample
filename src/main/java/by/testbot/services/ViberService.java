@@ -1,5 +1,6 @@
 package by.testbot.services;
 
+import by.testbot.alphaCRM.service.CrmService;
 import by.testbot.bot.user.UserBotContext;
 import by.testbot.bot.user.UserBotState;
 import by.testbot.models.User;
@@ -47,6 +48,9 @@ public class ViberService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CrmService crmService;
 
     @Autowired
     private TrialLessonService trialLessonService;
@@ -303,7 +307,7 @@ public class ViberService {
             } else {
                 userBotState = UserBotState.SUBSCRIBED;
                 user.setUserBotState(userBotState);
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
+                userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
                 userBotState.enter(userBotContext);
             }
 
@@ -323,7 +327,7 @@ public class ViberService {
                 adminBotState.handleInput(adminBotContext);
             } else {
                 userBotState = user.getUserBotState();
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
+                userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getSubscribedCallback());
                 userBotState.handleInput(userBotContext);
             }
         }
@@ -348,7 +352,7 @@ public class ViberService {
             } else {
                 userBotState = UserBotState.CONVERSATION_STARTED;
                 user.setUserBotState(userBotState);
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
+                userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
                 userBotState.enter(userBotContext);
             }
 
@@ -368,7 +372,7 @@ public class ViberService {
                 adminBotState.handleInput(adminBotContext);
             } else {
                 userBotState = user.getUserBotState();
-                userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
+                userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getConversationStartedCallback());
                 userBotState.handleInput(userBotContext);
             }
         }
@@ -386,7 +390,7 @@ public class ViberService {
     private void handleMessageCallback(ViberUpdate viberUpdate) {
         final String viberId = viberUpdate.getMessageCallback().getSender().getId();
         AdminBotContext adminBotContext = AdminBotContext.of(this, this.userService, this.botMessageService, this.messageService, this.adminKeyboardService, viberUpdate.getMessageCallback());
-        UserBotContext userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
+        UserBotContext userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
         AdminBotState adminBotState = null;
         UserBotState userBotState = null;
 
@@ -425,7 +429,7 @@ public class ViberService {
             return adminBotState;
         } else {
             userBotState = user.getUserBotState();
-            userBotContext = UserBotContext.of(this, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
+            userBotContext = UserBotContext.of(this, this.crmService, this.userKeyboardService, this.trialLessonService, this.messageService, viberUpdate.getMessageCallback());
             userBotState.handleInput(userBotContext);
             return userBotState;
         }
